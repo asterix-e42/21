@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 06:18:13 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 12:06:19 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 13:37:51 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,17 @@ char	*set_hist(char *str, char c)
 	return (str);
 }
 
-void    cutinhist(char *pas, char *nam)
+void	cutinhist(char *pas, char *nam)
 {
-	//write(1, "j", 1);
 	VAR->add_bout("hist", pas, nam);
 }
 
-char    *fleme(void)
+char	*fleme(void)
 {
 	char	*tmp;
 
 	tmp = VAR->chop("hist", "paste");
 	if (!tmp)
-		return("");
+		return ("");
 	return (tmp);
 }

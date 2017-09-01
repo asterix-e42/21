@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 10:38:53 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 14:24:56 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,20 @@ int		main(int ac, char **av, char **ae)
 	ft_mini_exit((void *)0);
 }
 
-void del_t_token(void *tok, size_t tamere)
+void	del_t_token(void *tok, size_t tamere)
 {
 	(void)tamere;
 	free(tok);
 }
 
-void del_t_redir(void *redir, size_t tamere)
+void	del_t_redir(void *redir, size_t tamere)
 {
 	(void)tamere;
 	freeteuse((void **)((t_redir *)redir)->file, 0);
 	free(redir);
 }
 
-void del_t_ast(void *ast, size_t tamere)
+void	del_t_ast(void *ast, size_t tamere)
 {
 	(void)tamere;
 	freeteuse((void **)((t_ast *)ast)->assign, 1);
@@ -56,15 +56,12 @@ void del_t_ast(void *ast, size_t tamere)
 
 void	sheel(char **av)
 {
-	char	*string;
-	//char	*tmp;
-	t_lexer     *tex;
+	char		*string;
+	t_lexer		*tex;
 	t_leaf		*start;
 
-	//VAR->print("env", NULL);
 	whereareyou("PWD");
 	VAR->add_bout("env", "_", *av);
-	//env_add("_", *av);
 	lvlup();
 	while (1)
 	{
@@ -73,17 +70,14 @@ void	sheel(char **av)
 			continue ;
 		tex = lexer_init(string);
 		lexer(tex);
-		if (tex)
-		{
-			start = ast(*tex);
-			if (start)
-				execution(start, NULL);
+		start = ast(*tex);
+		if (start)
+			execution(start, NULL);
 		ft_treedel(&start, del_t_ast);
 		free(start);
 		free(tex->input);
 		ft_lstdel(&(tex->token), del_t_token);
 		free(tex);
-		}
 		free(string);
 	}
 }

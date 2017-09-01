@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 06:45:19 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 13:54:04 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int				insert_home(char **s, int r);
 int				variable(char **s, int symb);
 int				echapement(char **s, int symb);
 int				is_dir(char *s);
-int				new_process(t_ast *ast, char **av, char *error);
+int				new_process(t_ast *ast, char *error);
 
 char			*ft_strjoini(char const *s1, char const *s2, char c);
 void			freeteuse(void **s, int niveau);

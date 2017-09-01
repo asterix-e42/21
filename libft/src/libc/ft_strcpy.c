@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 03:01:37 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/02/28 20:46:28 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 00:01:33 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ char	*ft_strcpy(char *dest, const char *src)
 
 	lenght = ft_strlen(src);
 	i = -1;
-	while (i++ < lenght)
-		*(dest + i) = *(src + i);
+	if (dest < src)
+		while (i++ < lenght)
+			*(dest + i) = *(src + i);
+	else
+		while (lenght--)
+			*(dest + lenght) = *(src + lenght);
 	return (dest);
 }

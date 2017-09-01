@@ -1,19 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reserv.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/01 13:12:13 by tdumouli          #+#    #+#             */
+/*   Updated: 2017/09/01 13:14:32 by tdumouli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lexer.h"
 #include "libft.h"
 
-static t_list   *new_private(char *name, e_token_type type)
+static t_list	*new_private(char *name, e_token_type type)
 {
-	t_res_name   ret;
+	t_res_name	ret;
 
 	ret.text = ft_strdup(name);
 	ret.type = type;
 	return (ft_lstnew(&ret, sizeof(t_res_name)));
 }
 
-static t_list *init(void)
+static t_list	*init(void)
 {
-	t_list *ret;
+	t_list		*ret;
 
 	ret = NULL;
 	ft_lstadd(&ret, new_private("if", TK_IF));
@@ -32,11 +43,11 @@ static t_list *init(void)
 	return (ret);
 }
 
-t_list *get_resv(void)
+t_list			*get_resv(void)
 {
 	static t_list *ret = NULL;
 
 	if (!ret)
 		ret = init();
-	return(ret);
+	return (ret);
 }

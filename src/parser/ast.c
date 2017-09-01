@@ -6,64 +6,15 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 05:39:02 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 13:36:29 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <unistd.h>
 #include <stdlib.h>
-//char	**realloc_dstr(char **prev, t_token)
 
-/*char **make_cmd(t_lexer lex)
-  {
-  char **cmd;
-
-  while (((t_token *)tex->token->content)->len
-  && ((t_token *)tex->token->content)->type != TK_SEPARATOR)
-  {
-
-  }
-  }
-  */
-
-void	print_ast(t_leaf *start)
-{
-	int i;
-
-	i = -1;
-	(void)start;
-/*		ft_putnbr (((t_ast *)start->content)->flag);
-		write(1, "[", 1);
-		if (((t_ast *)start->content)->flag)
-		write(1, ((t_ast *)start->content)->tok->start, ((t_ast *)start->content)->tok->len);
-		else
-		{
-		if (((t_ast *)start->content)->argv)
-		while (*(++i + ((t_ast *)start->content)->argv))
-		{
-		ft_putstr(*(((t_ast *)start->content)->argv + i));
-		write(1, "   ", 3);
-		}
-		if (((t_ast *)start->content)->redir)
-		{
-		write(1, "{", 1);
-		ft_putnbr(((t_redir *)((t_ast *)start->content)->redir->content)->in);
-		write(1, ((t_redir *)((t_ast *)start->content)->redir->content)->tok->start,
-		((t_redir *)((t_ast *)start->content)->redir->content)->tok->len);
-		if (((t_redir *)((t_ast *)start->content)->redir->content)->out < 0)
-		ft_putstr(((t_redir *)((t_ast *)start->content)->redir->content)->file);
-		else
-		ft_putnbr(((t_redir *)((t_ast *)start->content)->redir->content)->out);
-		write(1, "}", 1);
-		}
-		else
-		write(1, "{no redir}", 10);
-		}
-		write(1, "]", 1);*/
-}
-
-t_list  *new_redir(t_lexer *lex)
+t_list	*new_redir(t_lexer *lex)
 {
 	t_redir		ret;
 
@@ -75,7 +26,6 @@ t_list  *new_redir(t_lexer *lex)
 	else
 		ret.in = ('>' == *((t_token *)lex->token->content)->start);
 	ret.tok = ((t_token *)lex->token->content);
-	//write(1, ret.tok->start, 1);
 	lex->token = lex->token->next;
 	ret.out = (*(((t_token *)lex->token->content)->start - 1) == '&') ? -1 : -2;
 	while (((t_token *)lex->token->content)->type == TK_BLANK)
@@ -87,19 +37,11 @@ t_list  *new_redir(t_lexer *lex)
 				(((t_token *)lex->token->content)->len));
 	return (ft_lstnew(&ret, sizeof(t_redir)));
 }
-/*
-   t_leaf	*new_redir(int in, int out)
-   {
-   t_redir	ret;
-
-   ret.in = in;
-   ret.out = out;
-   return (ft_treenew(&ret, sizeof(t_redir)));
-   }*/
 
 int		next_type(t_list *lex, e_token_type type)
 {
 	t_token *tok;
+
 	while ((tok = (t_token *)lex->next->content) && tok->len && (
 				tok->type == TK_BLANK))
 		lex = lex->next;
@@ -139,13 +81,10 @@ t_leaf	*new_ast(t_lexer *lex, char flag)
 	}
 	else
 		leaf = ft_treenew(&ret, sizeof(t_ast));
-	//write(1, "[", 1);
-	//ft_treeiter(leaf, print_ast);
-	//write(1, "]", 1);
 	return (leaf);
 }
 
-int add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
+int		add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
 {
 	t_leaf	*tmp;
 
@@ -155,7 +94,6 @@ int add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
 		((t_ast *)(tmp)->content)->flag = 9;
 	else if (((t_ast *)(*pourquoi)->content)->tok->type == TK_CONTROL)
 	{
-		//	print_ast(*start);
 		((t_ast *)((*start)->content))->flag = 255;
 		write(2, "parse error\n", 12);
 		ft_treeaddd(*pourquoi, tmp);
@@ -165,18 +103,18 @@ int add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
 		((t_ast *)(tmp)->content)->flag = 9;
 	else if (tok->len == 2 && (*tok->start == '&' || *tok->start == '|'))
 	{
-		while((*pourquoi)->prev && ((t_ast *)(*pourquoi)->content)->flag < 9)
+		while ((*pourquoi)->prev && ((t_ast *)(*pourquoi)->content)->flag < 9)
 			*pourquoi = (*pourquoi)->prev;
 		((t_ast *)(tmp)->content)->flag = 8;
 	}
 	else if (tok->len == 1 && *tok->start == '|')
 	{
-		while((*pourquoi)->prev && ((t_ast *)(*pourquoi)->content)->flag < 8)
+		while ((*pourquoi)->prev && ((t_ast *)(*pourquoi)->content)->flag < 8)
 			*pourquoi = (*pourquoi)->prev;
 		((t_ast *)(tmp)->content)->flag = 6;
 	}
 	if ((!(*pourquoi)->prev && ((t_ast *)(tmp)->content)->flag >=
-				((t_ast *)(*start)->content)->flag) || ((t_ast *)(tmp)->content)->flag == 9)
+	((t_ast *)(*start)->content)->flag) || ((t_ast *)(tmp)->content)->flag == 9)
 	{
 		tmp->gauche = *start;
 		*start = tmp;
@@ -189,7 +127,6 @@ int add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
 
 t_leaf	*new_secleaf(t_token *tok)
 {
-	//	t_leaf	*start;
 	t_lexer	*sec_lex;
 	char	*tmp;
 
@@ -203,24 +140,14 @@ t_leaf	*new_secleaf(t_token *tok)
 	free(tmp);
 	lexer(sec_lex);
 	if (sec_lex)
-	{
-		//		write(1, "i", 4);
-		//print_lex(*sec_lex);
-		//ft_treeiter(ast(*sec_lex), print_ast);
-		return(ast(*sec_lex));
-	}
-	//	write(1, "r", 4);
-	//start = new_ast(sec_lex, 2);
-
-	//ft_treeaddfromprev(actuel, );
+		return (ast(*sec_lex));
 	return (NULL);
 }
 
-
-char        **str_str_ralloc(int diff, char **str)
+char		**str_str_ralloc(int diff, char **str)
 {
-	char    **new;
-	int     lenght;
+	char	**new;
+	int		lenght;
 
 	lenght = -1;
 	if (!str)
@@ -237,9 +164,9 @@ char        **str_str_ralloc(int diff, char **str)
 	return (new);
 }
 
-int str_strlen(void **s)
+int		str_strlen(void **s)
 {
-	size_t  t;
+	size_t	t;
 
 	t = 0;
 	while (*(t + s))
@@ -271,13 +198,13 @@ void	set_ast_args(t_token *elem, t_ast *ast)
 		tmp2 = ft_strsplit(str, ' ');
 	if ((flag_cote = str_strlen((void **)tmp2)))
 	{
-	tmp = str_str_ralloc(flag_cote, ast->argv);
-	while (flag_cote--)
-		*(tmp + ast->argc + flag_cote) = *(tmp2 + flag_cote);
-	free(ast->argv);
-	free(tmp2);
-	ast->argv = tmp;
-	++ast->argc;
+		tmp = str_str_ralloc(flag_cote, ast->argv);
+		while (flag_cote--)
+			*(tmp + ast->argc + flag_cote) = *(tmp2 + flag_cote);
+		free(ast->argv);
+		free(tmp2);
+		ast->argv = tmp;
+		++ast->argc;
 	}
 	free(str);
 }
@@ -287,60 +214,37 @@ t_leaf	*ast(t_lexer lex)
 	t_leaf	*start;
 	t_leaf	*parceque;
 
-	//if (((t_ast *)start->content)->tok->type == TK_CONTROL)
-	//	write(1, "1", 1);
-	//return (NULL);
 	if (!(start = new_ast(&lex, 1)))
 		return (NULL);
 	parceque = start;
 	while (((t_token *)lex.token->content)->len)
 	{
-		//	write(1, "r		", 3);
 		if ((((t_token *)lex.token->content)->type) == TK_CONTROL)
 		{
-			//		write(1, "C		", 3);
 			if (add_control(&start, &parceque, lex.token->content))
-			{
-				//			write(1, "nop", 3);
 				return (start);
-			}
 			lex.token = lex.token->next;
-			if(ft_treeaddd(parceque, new_ast(&lex, 1)))
+			if (ft_treeaddd(parceque, new_ast(&lex, 1)))
 				return (start);
 			parceque = parceque->droite;
 		}
 		if (((((t_token *)lex.token->content)->type) == TK_NBR &&
-					(((t_token *)lex.token->next->content)->type) == TK_REDIR) ||
+				(((t_token *)lex.token->next->content)->type) == TK_REDIR) ||
 				(((t_token *)lex.token->content)->type) == TK_REDIR)
-		{
-			//		write(1, "essai7\n", 7);
 			ft_lstadd(&(((t_ast *)parceque->content)->redir), new_redir(&lex));
-		}
 		else if ((((t_token *)lex.token->content)->type) == TK_ACOLAD)
-		{
-			//write(2, "parse ok\n", 9);
-			//	write(1, "\n", 7);
-			//ft_treeaddfromprev(parceque, new_secleaf(lex.token->content, parceque));
-		}
+			;
 		else if ((((t_token *)lex.token->content)->type) == TK_PARENT)
-			write(1, "essai3\n", 7);
+			;
 		else if ((((t_token *)lex.token->content)->type) == TK_ASSEGMT)
-			write(1, "essai2\n", 7);
+			;
 		else if ((((t_token *)lex.token->content)->type) == TK_CMD ||
 				(((t_token *)lex.token->content)->type) == TK_NBR ||
 				(((t_token *)lex.token->content)->type) == TK_SCOTE ||
 				(((t_token *)lex.token->content)->type) == TK_DCOTE)
-		{
-			//write(1, "essai2\n", 7);
 			set_ast_args(lex.token->content, parceque->content);
-		}
-
-		//if ((((t_token *)lex.token->content)->type) == TK_CMD)
 		if (((t_token *)lex.token->content)->len)
 			lex.token = lex.token->next;
-		//	ft_treeiter(start, print_ast);
 	}
-	//	write(1, "i\n", 2);
-	ft_treeiter(start, print_ast);
 	return (start);
 }

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 05:36:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/08/24 20:15:02 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 14:13:19 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct	s_leaf
 	struct s_leaf	*gauche;
 	struct s_leaf	*droite;
 }				t_leaf;
-
 
 int				ft_isspace(int c);
 int				ft_intlen(int n);

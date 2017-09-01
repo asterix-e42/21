@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 01:28:49 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/04/19 22:36:33 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 13:02:04 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	ft_setenv(char **av, char *nam)
 {
 	int		i;
+
 	i = 1;
 	if (!*(av + 1))
 		VAR->print(nam, NULL);

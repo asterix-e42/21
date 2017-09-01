@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 14:31:11 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 07:15:20 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 13:41:07 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*chop(char *nam_var, char *name_priv)
 
 	tmp = ft_lstfind_var(nam_var);
 	if (!name_priv)
-		return(tmp ? tmp->name : NULL);
+		return (tmp ? tmp->name : NULL);
 	if (tmp)
 		if ((exist = ft_lstfind_priv(name_priv, tmp->privat)))
 			return (((t_private *)exist->content)->value);
