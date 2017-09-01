@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:26:15 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/08/24 17:14:43 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 11:34:55 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void			move_simple(char *s, t_data *blk)
 		if (*(s + 2) == 70)
 			set_t_data_pointeur(blk, blk->len - blk->pointeur);
 		if (*(s + 2) == 65)
-			;
+			replace(blk, get_hist(-1));
 		else if (*(s + 2) == 66)
-			;
+			replace(blk, get_hist(1));
 		else if (*(s + 2) == 67)
 		{
 			if (blk->pointeur < blk->len)

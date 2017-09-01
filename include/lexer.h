@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 17:31:39 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/08/31 04:05:32 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 04:01:16 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct 			s_redir
 typedef struct 			s_ast
 {
 	char				**assign; // a faire plus tard avec env
-	char				*cmd;
 	t_token				*tok;
 	char				**argv;
 	int					argc;

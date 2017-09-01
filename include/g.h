@@ -1,6 +1,7 @@
+#ifndef G_H
+# define G_H
 
 #define BUFF_SIZE 1
-#define D(doubl) (doubl):O_TRUNC?O_APPEND
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
@@ -31,3 +32,14 @@ int		pass_canonique(void);
 
 void	move_simple(char *s, t_data *blk);
 void	move_simple_depl(char *s, t_data *blk);
+
+char	*get_hist(int up);
+char	*fleme(void);
+char	*set_hist(char *stri, char c);
+void	cutinhist(char *pas, char *nam);
+
+void	replace(t_data *blk, char *n);
+void	ft_write(int fd, char *str, int len);
+void    cutpaste(char *c, t_data *b);
+void    ajout_str(char *c, t_data *blk);
+#endif

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 14:26:24 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/07/12 18:51:54 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 07:35:15 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_list	*new_private(char *name, char *value)
 	return (ft_lstnew(&ret, sizeof(t_private)));
 }
 
+int printf(const char *s, ...);
 void		add_bout(char *nam, char *name, char *value)
 {
 	t_var		*priv;

@@ -109,7 +109,7 @@ static t_res_name		lexer_get_newline(char *str)
 
 static t_res_name		lexer_get_cote(char *str)
 {
-	t_res_name ret;
+	t_res_name	ret;
 
 	ret.text = str;
 	if (*ret.text == '\'' || *ret.text == '"')
@@ -119,10 +119,9 @@ static t_res_name		lexer_get_cote(char *str)
 			ret.type = TK_SCOTE;
 		else
 			ret.type = TK_DCOTE;
-		if (!ft_strchr(ret.text + 1, *ret.text))
-			ret.text = NULL; // a remplir
-		else
-			ret.text = ft_strchr(ret.text + 1, *ret.text) + 1;
+		while ((ret.text = ft_strchr(ret.text + 1, *ret.text)))
+			if ((ret.type == TK_SCOTE || *(ret.text - 1) != '\\') && ++ret.text)
+				break;
 	}
 	return (ret);
 }

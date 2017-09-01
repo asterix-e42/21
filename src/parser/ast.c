@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/08/27 20:43:32 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/01 05:39:02 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,22 +261,25 @@ void	set_ast_args(t_token *elem, t_ast *ast)
 	ft_strncat(str, elem->start + flag_cote, elem->len - (2 * flag_cote));
 	if (elem->type != TK_SCOTE)
 		change(&str, flag_cote, ast->argv);
-	tmp2 = ft_strsplit(str, ' ');
+	if (flag_cote)
+	{
+		tmp2 = (char **)malloc(sizeof(char *) * 2);
+		*(tmp2 + 1) = (char *)0;
+		*tmp2 = ft_strdup(str);
+	}
+	else
+		tmp2 = ft_strsplit(str, ' ');
 	if ((flag_cote = str_strlen((void **)tmp2)))
 	{
-	//write(1, "\n", 1);
-	//ft_putnbr(flag_cote);
-	//ft_putstr(str);
-	//write(1, "\n", 1);
 	tmp = str_str_ralloc(flag_cote, ast->argv);
 	while (flag_cote--)
 		*(tmp + ast->argc + flag_cote) = *(tmp2 + flag_cote);
 	free(ast->argv);
+	free(tmp2);
 	ast->argv = tmp;
 	++ast->argc;
 	}
-	if (ast->argc == 1)
-		ast->cmd = str;
+	free(str);
 }
 
 t_leaf	*ast(t_lexer lex)
