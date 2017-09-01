@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2017/08/31 04:00:01 by tdumouli         ###   ########.fr        #
+#    Updated: 2017/09/01 10:22:39 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ VAR  =	ajout.o detroy.o get.o print.o variable.o
 LAXT = lexer/lexer.o lexer/reserv.o parser/ast.o
 
 SAISIE = canonique.o move.o saisie.o t_data_init.o terminal_deplacement.o \
-		 utils.o
+		 utils.o hist.o replace.o
 
 LIB = libft/libft.a
 
@@ -50,7 +50,7 @@ GREEN="\x1b[32m"
 YELLOW="\x1b[33m"
 CC = gcc
 CFLAGS = $(INCDIR) -Wall -Wextra -Werror
-DEBUG = -fsanitize=address -g3
+DEBU = -fsanitize=address -g3
 MAKE = /usr/bin/make
 
 LSTDIR=	$(addprefix $(OBJDIR)/, $(LSTDIRI)) \
