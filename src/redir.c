@@ -6,11 +6,12 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 20:19:34 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/03 01:31:09 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/04 00:47:33 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include "libft.h"
 #include "mini.h"
 
@@ -37,7 +38,7 @@ void	redirpass(t_list *elem)
 	pass(ast->in, ast->out);
 }
 
-void	d_redir_g(t_redir *redir, char *flag_av)
+void		d_redir_g(t_redir *redir, char *flag_av)
 {
 	char	*str;
 	int		*fd;
@@ -55,6 +56,7 @@ void	d_redir_g(t_redir *redir, char *flag_av)
 		ft_putchar_fd('\n', (*(fd + 1)));
 	}
 	close(*(fd + 1));
+	//printf("%s -> %lx\n", redir->file, (long int)redir->file);
 	if (!flag_av)
 		redir->in = *fd;
 	else

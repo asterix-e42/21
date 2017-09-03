@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/03 01:41:29 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/04 01:51:01 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,16 @@ void	open_file(t_list *redir_start, void *flag_av)
 	O_CREAT | O_WRONLY | open_fg, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
 					return ;
 				redi->fd = redi->out;
-				dup2(redi->out, redi->in);
 			}
 		}
+		ft_putnbr(redi->in);
+		ft_putnbr(redi->out);
+		ft_putnbr(isatty(redi->in));
+		ft_putnbr(isatty(redi->out));
+		if (isatty(redi->in) && isatty(redi->out))
+			dup2(redi->out, redi->in);
+		else
+			write(1, "pas ouvert\n", 10);
 		redir_start = redir_start->next;
 	}
 }
@@ -120,8 +127,6 @@ int		built_in(char **av)
 		VAR->print(*av, NULL);
 	else if (!ft_strncmp(*av, "set", 3) && *(s = *av + 3) && VAR->chop(s, 0))
 		ft_setenv(av, s);
-	else if (!ft_strcmp(*(av), "exit"))
-		ft_mini_exit(av);
 	else if (!ft_strncmp(*av, "unset", 5) && *(s = *av + 5) && VAR->chop(s, 0))
 		while (*(++av))
 			VAR->unset(s, *av);
@@ -160,6 +165,8 @@ int		exe_path(char **av, t_ast *ast)
 			j = new_process(ast, "command not found");
 		freeteuse((void **)path, 1);
 	}
+	else
+		new_process(ast, "le PATH est vide");
 	return (j);
 }
 
@@ -213,8 +220,8 @@ int		execution(t_leaf *branche, int *redir_process)
 	ast = branche->content;
 	if (!ast->flag)
 	{
-		if (ast->argv && built_in(ast->argv))
-			return (0);
+		if (ast->argv && !ft_strcmp(*(ast->argv), "exit"))
+			ft_mini_exit(ast->argv);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -223,7 +230,9 @@ int		execution(t_leaf *branche, int *redir_process)
 				dup2(*(redir_process + 1), 1);
 			if (redir_process)
 				dup2(*redir_process, 0);
-			if (ast->argv || (count = 0))
+			if (ast->argv && built_in(ast->argv))
+				count = 0;
+			else if (ast->argv || (count = 0))
 			{
 				VAR->add_bout("env", "_", *(ast->argv));
 				if (ft_strchr(*(ast->argv), '/'))

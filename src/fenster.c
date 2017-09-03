@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/02 21:00:41 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/04 01:28:58 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,11 @@ void	del_t_ast(void *ast, size_t tamere)
 	free(ast);
 }
 
-void	sheel(char **av)
+void execmain(char *string)
 {
-	char		*string;
 	t_lexer		*tex;
 	t_leaf		*start;
 
-	whereareyou("PWD");
-	VAR->add_bout("env", "_", *av);
-	lvlup();
-	while (1)
-	{
-		write(1, "🦄 > \x1b[39m", 12);
-		if (!(string = saisie()))
-			continue ;
 		tex = lexer_init(string);
 		lexer(tex);
 		start = ast(*tex);
@@ -80,5 +71,19 @@ void	sheel(char **av)
 		ft_lstdel(&(tex->token), del_t_token);
 		free(tex);
 		free(string);
+}
+
+void	sheel(char **av)
+{
+	char		*string;
+
+	whereareyou("PWD");
+	VAR->add_bout("env", "_", *av);
+	lvlup();
+	while (1)
+	{
+		if (!(string = saisie()))
+			continue ;
+		execmain(string);
 	}
 }

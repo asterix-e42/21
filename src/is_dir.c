@@ -6,13 +6,15 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 16:41:02 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 06:27:23 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/04 01:28:55 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include "libft.h"
 
 int		is_dir(char *name)
 {

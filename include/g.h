@@ -6,14 +6,12 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:42:34 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 14:25:02 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/03 21:39:41 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef G_H
 # define G_H
-
-# define BUFF_SIZE 1
 
 # define MIN(x,y) ((x) < (y) ? (x) : (y))
 # define MAX(x,y) ((x) > (y) ? (x) : (y))
@@ -30,6 +28,7 @@ typedef struct	s_fd{
 	int fd_err[2];
 }				t_fd;
 
+void			execmain(char *string);
 char			*saisie(void);
 void			clean(t_data *blk);
 void			yolo(int dir, int y);

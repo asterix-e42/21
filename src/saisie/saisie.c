@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/02 18:40:30 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/03 23:22:15 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char				*lecture(t_data *my_block)
 
 	while ((lec = read(0, c, 1024)) > 0)
 	{
+
 		*(c + lec) = 0;
 		if (*(c) == 3)
 			return (NULL);
@@ -65,14 +66,45 @@ char				*lecture(t_data *my_block)
 	return (my_block->str);
 }
 
+char				*alloc_brute_to_fd(int fd)
+{
+	char			buf[BUFF_SIZE + 1];
+	int				rd;
+	char			*ret;
+	char			*tmp;
+
+	ret = NULL;
+	while ((rd = read(fd, buf, BUFF_SIZE)))
+	{
+		if (rd == -1)
+			return (ret);
+		*(buf + rd) = '\0';
+		if (!ret)
+			ret = ft_strdup(buf);
+		else
+		{
+			tmp = ret;
+			ret = ft_strjoin(ret, buf);
+			free (tmp);
+		}
+	}
+	return (ret);
+}
+
 char				*saisie(void)
 {
 	t_data			*my_block;
 	struct termios	term;
 	char			*read;
 
+	read = NULL;
 	if (tcgetattr(0, &term) == -1)
-		return (NULL);
+	{
+		read = alloc_brute_to_fd(0);
+		execmain(read);
+		exit(0);
+	}
+	write(1, "🦄 > \x1b[39m", 12);
 	if (!(my_block = t_dat_init()))
 		return (NULL);
 	if (pass_canonique())
