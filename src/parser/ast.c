@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 13:36:29 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/02 20:15:37 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_list	*new_redir(t_lexer *lex)
 {
 	t_redir		ret;
 
+	ret.fd = 0;
 	if ((((t_token *)lex->token->content)->type) == TK_NBR)
 	{
 		ret.in = ft_atoi(((t_token *)lex->token->content)->start);
@@ -38,7 +39,7 @@ t_list	*new_redir(t_lexer *lex)
 	return (ft_lstnew(&ret, sizeof(t_redir)));
 }
 
-int		next_type(t_list *lex, e_token_type type)
+int		next_type(t_list *lex, t_token_type type)
 {
 	t_token *tok;
 

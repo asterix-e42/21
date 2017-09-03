@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2017/08/24 16:43:25 by tdumouli         ###   ########.fr        #
+#    Updated: 2017/09/03 00:56:49 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LST =	add.o new.o del.o delone.o iter.o map.o find.o addend.o findsize.o \
 
 ABR =	addd.o del.o iter.o addg.o delone.o new.o addfromprev.o
 
-UTL =	bracket.o
+UTL =	bracket.o get_next_line.o
 
 OBJ=	$(addsuffix .o, $(addprefix $(OBJDIR)/libc/ft_, $(SRCS))) \
 		$(addprefix $(OBJDIR)/liste/ft_lst, $(LST)) \

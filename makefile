@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2017/09/01 10:22:39 by tdumouli         ###   ########.fr        #
+#    Updated: 2017/09/02 20:21:09 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INCDIR = -I./include -I./libft/include
 
 
 
-MINI =	enviede.o is_dir.o utilitaire.o	change.o fenster.o grsa.o
+MINI =	enviede.o is_dir.o utilitaire.o	change.o fenster.o grsa.o redir.o
 
 BUILD =	echo.o cd.o exit.o setenv.o
 

@@ -6,14 +6,14 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:12:13 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 13:14:32 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/02 17:16:18 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "libft.h"
 
-static t_list	*new_private(char *name, e_token_type type)
+static t_list	*new_private(char *name, t_token_type type)
 {
 	t_res_name	ret;
 

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 12:54:55 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/03 01:41:29 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,49 +37,40 @@ void	change(char **s, int flagcote, char **test)
 	}
 }
 
-void	open_file(t_list *redir_start)
+void	open_file(t_list *redir_start, void *flag_av)
 {
-	int open_flag;
+	int		open_fg;
+	t_redir	*redi;
 
-	while (redir_start)
+	while (redir_start && (redi = ((t_redir *)redir_start->content)))
 	{
-		if (((t_redir *)redir_start->content)->out <= -1)
+		if (redi->out <= -1)
 		{
-			if (*((t_redir *)redir_start->content)->tok->start == '<')
-				if (*(((t_redir *)redir_start->content)->tok->start + 1) == '<')
-				{
-					write(2, "tamere", 6);
-					//get_next line ou termcaps
-				}
+			if (*redi->tok->start == '<')
+				if (*(redi->tok->start + 1) == '<')
+					d_redir_g(redi, flag_av);
 				else
 				{
-					((t_redir *)redir_start->content)->out =
-	((t_redir *)redir_start->content)->in;
-					if ((((t_redir *)redir_start->content)->in = open(
-	((t_redir *)redir_start->content)->file, O_RDONLY | O_NOCTTY)) < 0)
+					redi->out = redi->in;
+					if ((redi->fd = open(redi->file, O_RDONLY | O_NOCTTY)) < 0)
 					{
-						write(1, "ouvrepas", 8);
+						write(2, "open : can't open", 8);
 						return ;
 					}
-					((t_redir *)redir_start->content)->fd =
-	((t_redir *)redir_start->content)->in;
-					dup2(((t_redir *)redir_start->content)->in,
-					((t_redir *)redir_start->content)->out);
+					redi->in = redi->fd;
+					if (flag_av)
+						dup2(redi->in, redi->out);
 				}
-			else if (*((t_redir *)redir_start->content)->tok->start == '>')
+			else if (*redi->tok->start == '>')
 			{
-				open_flag = (*(((t_redir *)redir_start->content)
-							->tok->start + 1) != '>') ? O_TRUNC : O_APPEND;
-				if (!((((t_redir *)redir_start->content)->out =
-			open(((t_redir *)redir_start->content)->file,
-O_CREAT | O_WRONLY | open_flag, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
+				open_fg = (*(redi->tok->start + 1) != '>') ? O_TRUNC : O_APPEND;
+				if (!((redi->out = open(redi->file,
+	O_CREAT | O_WRONLY | open_fg, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
 					return ;
-				((t_redir *)redir_start->content)->fd =
-	((t_redir *)redir_start->content)->out;
+				redi->fd = redi->out;
+				dup2(redi->out, redi->in);
 			}
 		}
-		dup2(((t_redir *)redir_start->content)->out,
-					((t_redir *)redir_start->content)->in);
 		redir_start = redir_start->next;
 	}
 }
@@ -87,13 +78,13 @@ O_CREAT | O_WRONLY | open_flag, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
 void	create_file(t_list *redir_start)
 {
 	int		open_close;
+	t_redir	*redir;
 
-	while (redir_start)
+	while (redir_start && (redir = ((t_redir *)redir_start->content)))
 	{
-		if (((t_redir *)redir_start->content)->out <= -1 &&
-			*((t_redir *)redir_start->content)->tok->start == '>')
-			if (((open_close = open(((t_redir *)redir_start->content)->file,
-	O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
+		if (redir->out <= -1 && *redir->tok->start == '>')
+			if (((open_close = open(redir->file,
+						O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
 				close(open_close);
 		redir_start = redir_start->next;
 	}
@@ -109,10 +100,7 @@ int		new_process(t_ast *ast, char *error)
 	{
 		pid = fork();
 		if (pid == 0)
-		{
-			open_file(ast->redir);
 			execve(*(ast->argv), ast->argv, VAR->chop_all("env"));
-		}
 		wait(&count);
 		return (WEXITSTATUS(count));
 	}
@@ -124,7 +112,7 @@ int		built_in(char **av)
 {
 	char	*s;
 
-	if (!*av)
+	if (!av || !*av)
 		return (1);
 	if (!ft_strcmp(*av, "cd"))
 		built_cd(av);
@@ -210,7 +198,7 @@ void	exec_sparator(t_leaf *branche, int *redir_process_du_futur)
 			*(redir_process + 2) = 0;
 	}
 	if (tok->len == 1 || ret_branche == (*tok->start == '|') ||
-						!ret_branche == (*tok->start == '&'))
+			!ret_branche == (*tok->start == '&'))
 		execution(branche->droite, redir_process);
 	if (redir_process)
 		free(redir_process);
@@ -223,23 +211,28 @@ int		execution(t_leaf *branche, int *redir_process)
 	pid_t	pid;
 
 	ast = branche->content;
-	if (!ast->flag && ast->argv)
+	if (!ast->flag)
 	{
-		if (built_in(ast->argv))
+		if (ast->argv && built_in(ast->argv))
 			return (0);
 		pid = fork();
 		if (pid == 0)
 		{
-			open_file(ast->redir);
+			open_file(ast->redir, ast->argv);
 			if (redir_process && *(redir_process + 2))
 				dup2(*(redir_process + 1), 1);
 			if (redir_process)
 				dup2(*redir_process, 0);
-			VAR->add_bout("env", "_", *(ast->argv));
-			if (ft_strchr(*(ast->argv), '/'))
-				count = new_process(ast, "no such file or directory");
+			if (ast->argv || (count = 0))
+			{
+				VAR->add_bout("env", "_", *(ast->argv));
+				if (ft_strchr(*(ast->argv), '/'))
+					count = new_process(ast, "no such file or directory");
+				else
+					count = exe_path(ast->argv, ast);
+			}
 			else
-				count = exe_path(ast->argv, ast);
+				ft_lstiter(ast->redir, redirpass);
 			exit(count);
 		}
 		wait(&count);

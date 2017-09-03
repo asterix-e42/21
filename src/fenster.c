@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 14:24:56 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/02 21:00:41 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	del_t_token(void *tok, size_t tamere)
 void	del_t_redir(void *redir, size_t tamere)
 {
 	(void)tamere;
-	freeteuse((void **)((t_redir *)redir)->file, 0);
+	if (((t_redir *)redir)->fd)
+		freeteuse((void **)((t_redir *)redir)->file, 0);
 	free(redir);
 }
 

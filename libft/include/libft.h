@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 05:36:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 14:13:19 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/03 00:59:14 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <string.h>
 # include "color.h"
+# define BUFF_SIZE 64
 
 typedef struct	s_list
 {
@@ -112,5 +113,6 @@ t_leaf			*ft_treenew(void const *conten, size_t content_siz);
 int				ft_treeaddfromprev(t_leaf *b, t_leaf *a);
 
 char			*bracket(char *av, char test, char *t1, char *t2);
+int				get_next_line(const int fd, char **line);
 
 #endif

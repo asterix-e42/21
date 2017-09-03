@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 13:54:04 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/03 01:21:55 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "tent.h"
 # include "lexer.h"
 
-# define BUFF_SIZE 1
 # define SHELL "miniii"
 # define VAR all_var(0)
 
@@ -45,6 +44,13 @@ int				execution(t_leaf *branche, int *redir);
 ** environement
 */
 void			lvlup(void);
+/*
+** redirection
+*/
+void			pass(int fd_read, int fd_write);
+void			redirpass(t_list *elem);
+void			d_redir_g(t_redir *redir, char *av);
+int				*fume_pipe(void);
 /*
 ** utils
 */

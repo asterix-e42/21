@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 17:31:39 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 14:09:29 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/02 20:22:33 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct	s_token
 typedef struct	s_res_name
 {
 	char				*text;
-	e_token_type		type;
+	t_token_type		type;
 }				t_res_name;
 
 typedef struct	s_lexer
