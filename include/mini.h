@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/04 01:51:07 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/05 23:30:45 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void			pwd_short(char **pwd);
 void			cd(char *av);
 void			built_cd(char **av);
 
-void			ft_setenv(char **av, char *en);
+void			ft_setenv(t_ast *ast);
 
 void			ft_echo(char **av);
 

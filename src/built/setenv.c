@@ -6,24 +6,31 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 01:28:49 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 13:02:04 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/06 01:55:06 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "mini.h"
 
-void	ft_setenv(char **av, char *nam)
+void	ft_setenv(t_ast *ast)
 {
 	int		i;
+	char	*nam;
 
-	i = 1;
-	if (!*(av + 1))
+	if (!(nam = VAR->chop(*ast->argv + 3, 0)))
+		return ;
+	i = 0;
+	if (!(ast->assign))
+	{
 		VAR->print(nam, NULL);
+	}
 	else
-		while (*(av + i))
+	{
+		while (*(ast->assign + i))
 		{
-			VAR->add(nam, av + i, -1);
+			VAR->add(nam, ast->assign + i, -1);
 			++i;
 		}
+	}
 }

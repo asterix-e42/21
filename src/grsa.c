@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/04 01:51:01 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/06 02:42:58 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ void	open_file(t_list *redir_start, void *flag_av)
 				else
 				{
 					redi->out = redi->in;
-					if ((redi->fd = open(redi->file, O_RDONLY | O_NOCTTY)) < 0)
+					if ((redi->in = open(redi->file, O_RDONLY | O_NOCTTY)) < 0)
 					{
 						write(2, "open : can't open", 8);
 						return ;
 					}
-					redi->in = redi->fd;
-					if (flag_av)
-						dup2(redi->in, redi->out);
+					//redi->in = redi->fd;
+				//	if (flag_av)
+				//		dup2(redi->in, redi->out);
 				}
 			else if (*redi->tok->start == '>')
 			{
@@ -69,15 +69,32 @@ void	open_file(t_list *redir_start, void *flag_av)
 					return ;
 				redi->fd = redi->out;
 			}
+		//ft_putnbr(redi->in);
+		//ft_putnbr(redi->out);
+		if (flag_av)
+		{
+		//	write(1, "1 ", 1);
+			dup2(redi->out, redi->in);
 		}
+
+		}
+		else if(redi->out > 2 || 0 < redi->out)
+		{
+			erreur(SHELL, ft_itoa(redi->out), "bad file descriptor");
+			exit(1);
+		}
+		else
+		{
+			ft_putstr("je sais pas");
+		}
+		/*
 		ft_putnbr(redi->in);
-		ft_putnbr(redi->out);
 		ft_putnbr(isatty(redi->in));
 		ft_putnbr(isatty(redi->out));
 		if (isatty(redi->in) && isatty(redi->out))
 			dup2(redi->out, redi->in);
 		else
-			write(1, "pas ouvert\n", 10);
+			write(1, "pas ouvert\n", 10);*/
 		redir_start = redir_start->next;
 	}
 }
@@ -90,9 +107,9 @@ void	create_file(t_list *redir_start)
 	while (redir_start && (redir = ((t_redir *)redir_start->content)))
 	{
 		if (redir->out <= -1 && *redir->tok->start == '>')
-			if (((open_close = open(redir->file,
-						O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
-				close(open_close);
+			if (((open_close = creat(redir->file,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
+				;
 		redir_start = redir_start->next;
 	}
 }
@@ -114,29 +131,46 @@ int		new_process(t_ast *ast, char *error)
 	erreur(SHELL, error, *(ast->argv));
 	return (1);
 }
-
-int		built_in(char **av)
+/*
+** ici a gere assigne mieu
+*/
+int		built_in_before_fork(t_ast *ast)
 {
-	char	*s;
+	char	**av;
+	int		ret;
 
-	if (!av || !*av)
+	if (!(av = ast->argv) || !*av)
 		return (1);
-	if (!ft_strcmp(*av, "cd"))
-		built_cd(av);
-	else if (VAR->chop(*av, 0))
+	ret = 0;
+	if (ast->argv && !ft_strcmp(*(ast->argv), "exit"))
+		ft_mini_exit(ast->argv);
+	if (VAR->chop(*av, 0))
 		VAR->print(*av, NULL);
-	else if (!ft_strncmp(*av, "set", 3) && *(s = *av + 3) && VAR->chop(s, 0))
-		ft_setenv(av, s);
-	else if (!ft_strncmp(*av, "unset", 5) && *(s = *av + 5) && VAR->chop(s, 0))
+	else if (!ft_strcmp(*av, "cd"))
+		built_cd(av);
+	else if (!ft_strncmp(*av, "set", 3))
+		ft_setenv(ast);
+	else if (!ft_strncmp(*av, "unset", 5))
 		while (*(++av))
-			VAR->unset(s, *av);
+			VAR->unset(*ast->argv + 5, *av);
+	else
+		ret = 1;
+	return (ret);
+}
+
+int		built_in(t_ast *ast)
+{
+	char	**av;
+
+	if (!(av = ast->argv) || !*av)
+		return (1);
 	else if (!ft_strcmp(*av, "echo"))
 		ft_echo(av);
 	else
 		return (0);
-	while (*(av))
-		++av;
-	VAR->add_bout("env", "_", *(av - 1));
+	//while (*(av))
+	//	++av;
+	//VAR->add_bout("env", "_", *(av));
 	return (1);
 }
 
@@ -220,8 +254,8 @@ int		execution(t_leaf *branche, int *redir_process)
 	ast = branche->content;
 	if (!ast->flag)
 	{
-		if (ast->argv && !ft_strcmp(*(ast->argv), "exit"))
-			ft_mini_exit(ast->argv);
+		if (!built_in_before_fork(ast))
+			return (0);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -230,7 +264,7 @@ int		execution(t_leaf *branche, int *redir_process)
 				dup2(*(redir_process + 1), 1);
 			if (redir_process)
 				dup2(*redir_process, 0);
-			if (ast->argv && built_in(ast->argv))
+			if (ast->argv && built_in(ast))
 				count = 0;
 			else if (ast->argv || (count = 0))
 			{
@@ -242,6 +276,8 @@ int		execution(t_leaf *branche, int *redir_process)
 			}
 			else
 				ft_lstiter(ast->redir, redirpass);
+		//	ft_putnbr(((t_redir *)ast->redir->content)->in);
+		//	close(((t_redir *)ast->redir->content)->in);
 			exit(count);
 		}
 		wait(&count);

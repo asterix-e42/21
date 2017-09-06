@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 14:14:45 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 01:45:33 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/06 01:39:46 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void			destroy(char *nam_var, char *name_priv)
 	are_you = *(t_list **)all_var(734);
 	tmp = ft_lstfind_var(nam_var);
 	if (tmp &&
-	(exist = ft_lstfind_priv(name_priv, ((t_var *)(are_you->content))->privat)))
+	(exist = ft_lstfind_priv(name_priv, tmp->privat)))
 	{
 		are_you = tmp->privat;
 		if (exist == are_you)

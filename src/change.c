@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 16:19:35 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 12:55:13 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/06 02:32:31 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int		echapement(char **s, int pos)
 	if (chang)
 	{
 		*(*s + pos) = chang;
-		ft_strcpy((*s + pos + 1), (*s + pos + 2));
+		if (*(*s + pos + 1))
+			ft_strcpy((*s + pos + 1), (*s + pos + 2));
 	}
 	return (!chang);
 }

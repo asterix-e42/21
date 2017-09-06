@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/04 01:28:58 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/06 02:31:39 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ void	del_t_token(void *tok, size_t tamere)
 void	del_t_redir(void *redir, size_t tamere)
 {
 	(void)tamere;
-	if (((t_redir *)redir)->fd)
-		freeteuse((void **)((t_redir *)redir)->file, 0);
+	freeteuse((void **)((t_redir *)redir)->file, 0);
 	free(redir);
 }
 
@@ -60,17 +59,23 @@ void execmain(char *string)
 	t_lexer		*tex;
 	t_leaf		*start;
 
-		tex = lexer_init(string);
-		lexer(tex);
-		start = ast(*tex);
-		if (start)
-			execution(start, NULL);
-		ft_treedel(&start, del_t_ast);
-		free(start);
-		free(tex->input);
-		ft_lstdel(&(tex->token), del_t_token);
-		free(tex);
-		free(string);
+	tex = lexer_init(string);
+	lexer(tex);
+	start = ast(*tex);
+	if (start)
+		execution(start, NULL);
+	ft_treedel(&start, del_t_ast);
+	free(start);
+	free(tex->input);
+	ft_lstdel(&(tex->token), del_t_token);
+	free(tex);
+	free(string);
+}
+
+void sig_fpe(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
 }
 
 void	sheel(char **av)
@@ -80,6 +85,8 @@ void	sheel(char **av)
 	whereareyou("PWD");
 	VAR->add_bout("env", "_", *av);
 	lvlup();
+	if (signal(SIGINT, sig_fpe) == SIG_ERR)
+		write(2, "Le gestionnaire de signal n'a pu etre defini.", 45);
 	while (1)
 	{
 		if (!(string = saisie()))

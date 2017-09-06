@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 06:18:13 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 13:37:51 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/05 22:04:26 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ char	*set_hist(char *str, char c)
 		VAR->add_bout("hist", rang, str);
 		rang = ft_itoa(ft_atoi(rang) + 1);
 		VAR->add_bout("hist", "rang", rang);
+		VAR->add_bout("hist", "comp", rang);
 		free(rang);
 	}
 	else if (c == 4)
 		str = "exit";
-	VAR->add_bout("hist", "comp", rang);
+	else
+		VAR->add_bout("hist", "comp", rang);
 	return (str);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/04 01:28:20 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/06 02:00:17 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_list	*new_redir(t_lexer *lex)
 	t_redir		ret;
 
 	ret.fd = 0;
+	ret.file = (void *)0;
 	if ((((t_token *)lex->token->content)->type) == TK_NBR)
 	{
 		ret.in = ft_atoi(((t_token *)lex->token->content)->start);
@@ -174,6 +175,28 @@ int		str_strlen(void **s)
 		t++;
 	return (t);
 }
+/*
+** env non gere
+*/
+void	set_ast_assignement(t_token *elem, t_ast *ast)
+{
+	char	**tmp;
+	char	*str;
+	int		lenght;
+
+	lenght = -1;
+	if (!ast->assign)
+		++lenght;
+	else
+		while (*(ast->assign + ++lenght))
+			;
+	str = ft_strnew(elem->len);
+	ft_strncat(str, elem->start, elem->len);
+	tmp = str_str_ralloc(1, ast->assign);
+	*(tmp + lenght) = str;
+	free(ast->assign);
+	ast->assign = tmp;
+}
 
 void	set_ast_args(t_token *elem, t_ast *ast)
 {
@@ -238,7 +261,7 @@ t_leaf	*ast(t_lexer lex)
 		else if ((((t_token *)lex.token->content)->type) == TK_PARENT)
 			;
 		else if ((((t_token *)lex.token->content)->type) == TK_ASSEGMT)
-			;
+			set_ast_assignement(lex.token->content, parceque->content);
 		else if ((((t_token *)lex.token->content)->type) == TK_CMD ||
 				(((t_token *)lex.token->content)->type) == TK_NBR ||
 				(((t_token *)lex.token->content)->type) == TK_SCOTE ||

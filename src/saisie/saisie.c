@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/03 23:22:15 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/05 21:12:22 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,14 @@ char				*saisie(void)
 	char			*read;
 
 	read = NULL;
-	if (tcgetattr(0, &term) == -1)
+	if (!isatty(0))
 	{
 		read = alloc_brute_to_fd(0);
 		execmain(read);
 		exit(0);
 	}
+	if (tcgetattr(0, &term) == -1)
+		return (0);
 	write(1, "🦄 > \x1b[39m", 12);
 	if (!(my_block = t_dat_init()))
 		return (NULL);
