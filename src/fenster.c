@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/06 02:31:39 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/07 06:38:57 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ int		main(int ac, char **av, char **ae)
 {
 	VAR->init("env");
 	VAR->init("hist");
-	VAR->add_bout("hist", "comp", "1");
-	VAR->add_bout("hist", "rang", "1");
+	VAR->init("hidden");
+	VAR->add_bout("hidden", "comp", "1");
+	VAR->add_bout("hidden", "rang", "1");
+	VAR->add_bout("hidden", "stdin", "0");
+	VAR->add_bout("hidden", "stdout", "1");
+	VAR->add_bout("hidden", "stderr", "2");
 	VAR->init("alias");
 	VAR->add_bout("alias", "l", "ls -la");
 	VAR->add("env", ae, -1);

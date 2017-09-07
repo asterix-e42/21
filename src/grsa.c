@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/06 02:42:58 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/07 09:44:25 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,44 @@ void	change(char **s, int flagcote, char **test)
 		else if (*(*s + i) == '*')
 			;
 		++i;
+	}
+}
+
+void agregation(t_redir	*redi)
+{
+	int		fd_out = 0;
+	char	*out;
+
+	//fd_out = dup(redi->out);
+		if(dup2(redi->out, redi->in) == -1)
+		{
+			erreur(SHELL, ft_itoa(redi->out), "bad file descriptor");
+			exit(1);
+		}
+		//dup2(fd_out, redi->in);
+
+		out = ft_itoa(fd_out);
+		if (redi->out == 0)
+			VAR->add_bout("hidden", "stdin", out);
+		if (redi->out == 1)
+			VAR->add_bout("hidden", "stdout", out);
+		if (redi->out == 2)
+			VAR->add_bout("hidden", "stderr", out);
+		ft_putstr(out);
+		free(out);
+	//	close(fd_out);
+		//pipe(o);
+		ft_putstr("je sais pas");
+}
+
+void	close_file(t_list *redir_start)
+{
+	t_redir	*redi;
+	while (redir_start && (redi = ((t_redir *)redir_start->content)))
+	{
+		if (redi->fd <= -1)
+			close(redi->fd);
+		redir_start = redir_start->next;
 	}
 }
 
@@ -78,15 +116,8 @@ void	open_file(t_list *redir_start, void *flag_av)
 		}
 
 		}
-		else if(redi->out > 2 || 0 < redi->out)
-		{
-			erreur(SHELL, ft_itoa(redi->out), "bad file descriptor");
-			exit(1);
-		}
 		else
-		{
-			ft_putstr("je sais pas");
-		}
+			agregation(redi);
 		/*
 		ft_putnbr(redi->in);
 		ft_putnbr(isatty(redi->in));
@@ -150,7 +181,7 @@ int		built_in_before_fork(t_ast *ast)
 		built_cd(av);
 	else if (!ft_strncmp(*av, "set", 3))
 		ft_setenv(ast);
-	else if (!ft_strncmp(*av, "unset", 5))
+	else if (!ft_strncmp(*av, "unset", 5) && ft_strncmp(*av + 5, "hidden", 6))
 		while (*(++av))
 			VAR->unset(*ast->argv + 5, *av);
 	else
@@ -245,6 +276,34 @@ void	exec_sparator(t_leaf *branche, int *redir_process_du_futur)
 		free(redir_process);
 }
 
+void	return_back(void)
+{
+	char	*test;
+	int		fd;
+
+	test = VAR->chop("hidden", "stdin");
+	if (ft_strcmp(test, "0"))
+	{
+		close(0);
+		fd = dup(ft_atoi(test));
+		VAR->add_bout("hidden", "stdin", "0");
+	}
+	test = VAR->chop("hidden", "stdout");
+	if (ft_strcmp(test, "1"))
+	{
+		close(1);
+		fd = dup(ft_atoi(test));
+		VAR->add_bout("hidden", "stdin", "1");
+	}
+	test = VAR->chop("hidden", "stderr");
+	if (ft_strcmp(test, "2"))
+	{
+		close(2);
+		fd = dup(ft_atoi(test));
+		VAR->add_bout("hidden", "stdin", "2");
+	}
+}
+
 int		execution(t_leaf *branche, int *redir_process)
 {
 	int		count;
@@ -261,9 +320,9 @@ int		execution(t_leaf *branche, int *redir_process)
 		{
 			open_file(ast->redir, ast->argv);
 			if (redir_process && *(redir_process + 2))
-				dup2(*(redir_process + 1), 1);
+				dup2(*(redir_process + 1), atoi(VAR->chop("hidden", "stdout")));
 			if (redir_process)
-				dup2(*redir_process, 0);
+				dup2(*redir_process, atoi(VAR->chop("hidden", "stdin")));
 			if (ast->argv && built_in(ast))
 				count = 0;
 			else if (ast->argv || (count = 0))
@@ -277,10 +336,11 @@ int		execution(t_leaf *branche, int *redir_process)
 			else
 				ft_lstiter(ast->redir, redirpass);
 		//	ft_putnbr(((t_redir *)ast->redir->content)->in);
-		//	close(((t_redir *)ast->redir->content)->in);
+		close_file(ast->redir);
 			exit(count);
 		}
 		wait(&count);
+		return_back();
 		return (WEXITSTATUS(count));
 	}
 	else if (ast->flag)

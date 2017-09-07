@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/05 21:12:22 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/07 00:37:39 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char				*saisie(void)
 	}
 	if (tcgetattr(0, &term) == -1)
 		return (0);
-	write(1, "🦄 > \x1b[39m", 12);
+	write(1, "\r🦄 > \x1b[39m", 13);
 	if (!(my_block = t_dat_init()))
 		return (NULL);
 	if (pass_canonique())

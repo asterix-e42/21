@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 15:29:31 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 05:26:39 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/07 07:47:26 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	erreur(char *where, char *error, char *what)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(what, 2);
 	ft_putchar_fd('\n', 2);
+	write(1, "\t3", 2);
 }
 
 void	whereareyou(char *name)
