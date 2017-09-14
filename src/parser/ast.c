@@ -6,11 +6,12 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/06 02:45:41 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/14 02:02:23 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "mini.h"
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -66,7 +67,11 @@ t_leaf	*new_ast(t_lexer *lex, char flag)
 	ret.argc = 0;
 	if (flag && ((t_token *)(lex->token->content))->type == TK_CONTROL)
 	{
-		write(1, "parse error2\n", 13);
+		VAR->add_bout("hidden", "parse", "!");
+		erreur(SHELL, "parse error near `", NULL);
+		write(2, ((t_token *)(lex->token->content))->start,
+				((t_token *)(lex->token->content))->len);
+		write(2, "'\n", 2);
 		return (NULL);
 	}
 	else if (flag && ((t_token *)(lex->token->content))->type == TK_ACOLAD)

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/07 06:38:57 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/14 01:52:07 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ void execmain(char *string)
 	tex = lexer_init(string);
 	lexer(tex);
 	start = ast(*tex);
-	if (start)
+	if (!VAR->chop("hidden", "parse"))
 		execution(start, NULL);
+	else
+		VAR->unset("hidden", "parse");
 	ft_treedel(&start, del_t_ast);
 	free(start);
 	free(tex->input);

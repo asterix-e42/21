@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/07 09:44:25 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/14 01:38:28 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,36 @@ void	change(char **s, int flagcote, char **test)
 	}
 }
 
-void agregation(t_redir	*redi)
+int		fd_is_valid(int fd, int has_mode)
 {
-	int		fd_out = 0;
-	char	*out;
+	int		fd_flags;
+	int		fd_modes;
 
-	//fd_out = dup(redi->out);
-		if(dup2(redi->out, redi->in) == -1)
+	fd_modes = fcntl(fd, F_GETFL);
+	fd_flags = fcntl(fd, F_GETFD);
+	return (fd_flags != -1 && (has_mode == -1 || fd_modes & has_mode));
+}
+
+int		agregation(t_redir *redi)
+{
+	if (redi->out <= -1)
+	{
+		if (ft_strcmp(redi->file, "-") == 0)
 		{
-			erreur(SHELL, ft_itoa(redi->out), "bad file descriptor");
-			exit(1);
+			close(redi->in);
+			return (0);
 		}
-		//dup2(fd_out, redi->in);
-
-		out = ft_itoa(fd_out);
-		if (redi->out == 0)
-			VAR->add_bout("hidden", "stdin", out);
-		if (redi->out == 1)
-			VAR->add_bout("hidden", "stdout", out);
-		if (redi->out == 2)
-			VAR->add_bout("hidden", "stderr", out);
-		ft_putstr(out);
-		free(out);
-	//	close(fd_out);
-		//pipe(o);
-		ft_putstr("je sais pas");
+		erreur(SHELL, redi->file, "can only be digits{eoc}");
+		return (1);
+	}
+	if (redi->out > 9)
+		return (1);
+	if(dup2(redi->out, redi->in) == -1)
+	{
+		erreur(SHELL, ft_itoa(redi->out), "bad file descriptor");
+		return (1);
+	}
+	return (0);
 }
 
 void	close_file(t_list *redir_start)
@@ -75,59 +80,67 @@ void	close_file(t_list *redir_start)
 	}
 }
 
-void	open_file(t_list *redir_start, void *flag_av)
+int		open_file(t_list *redir_start, void *flag_av)
 {
 	int		open_fg;
 	t_redir	*redi;
 
 	while (redir_start && (redi = ((t_redir *)redir_start->content)))
 	{
-		if (redi->out <= -1)
+		if (*redi->tok->start == '<')
 		{
-			if (*redi->tok->start == '<')
-				if (*(redi->tok->start + 1) == '<')
-					d_redir_g(redi, flag_av);
-				else
-				{
+			if (*(redi->tok->start + 1) == '<')
+				d_redir_g(redi, flag_av);
+			else if (*(redi->tok->start + 1) && agregation(redi))
+				return (1);
+			else
+			{
 					redi->out = redi->in;
-					if ((redi->in = open(redi->file, O_RDONLY | O_NOCTTY)) < 0)
+					if ((redi->fd = open(redi->file, O_RDONLY | O_NOCTTY)) < 0)
 					{
 						write(2, "open : can't open", 8);
-						return ;
+						return (1);
 					}
-					//redi->in = redi->fd;
+					redi->in = redi->fd;
 				//	if (flag_av)
 				//		dup2(redi->in, redi->out);
-				}
-			else if (*redi->tok->start == '>')
-			{
-				open_fg = (*(redi->tok->start + 1) != '>') ? O_TRUNC : O_APPEND;
-				if (!((redi->out = open(redi->file,
-	O_CREAT | O_WRONLY | open_fg, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
-					return ;
-				redi->fd = redi->out;
 			}
+		}
+		else if (*redi->tok->start == '>')
+		{
+			if (*(redi->tok->start + 1) == '&')
+			{
+				if (agregation(redi))
+					return (1);
+			}
+			else
+			{
+			open_fg = (*(redi->tok->start + 1) != '>') ? O_TRUNC : O_APPEND;
+			if (!((redi->fd = open(redi->file,
+	O_CREAT | O_WRONLY | open_fg, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
+				return (1);
+			redi->out = redi->fd;
+			}
+		}
 		//ft_putnbr(redi->in);
 		//ft_putnbr(redi->out);
 		if (flag_av)
 		{
-		//	write(1, "1 ", 1);
+			//	write(1, "1 ", 1);
 			dup2(redi->out, redi->in);
 		}
 
-		}
-		else
-			agregation(redi);
 		/*
-		ft_putnbr(redi->in);
-		ft_putnbr(isatty(redi->in));
-		ft_putnbr(isatty(redi->out));
-		if (isatty(redi->in) && isatty(redi->out))
-			dup2(redi->out, redi->in);
-		else
-			write(1, "pas ouvert\n", 10);*/
+		   ft_putnbr(redi->in);
+		   ft_putnbr(isatty(redi->in));
+		   ft_putnbr(isatty(redi->out));
+		   if (isatty(redi->in) && isatty(redi->out))
+		   dup2(redi->out, redi->in);
+		   else
+		   write(1, "pas ouvert\n", 10);*/
 		redir_start = redir_start->next;
 	}
+	return (0);
 }
 
 void	create_file(t_list *redir_start)
@@ -139,7 +152,7 @@ void	create_file(t_list *redir_start)
 	{
 		if (redir->out <= -1 && *redir->tok->start == '>')
 			if (((open_close = creat(redir->file,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
+								S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
 				;
 		redir_start = redir_start->next;
 	}
@@ -156,15 +169,15 @@ int		new_process(t_ast *ast, char *error)
 		pid = fork();
 		if (pid == 0)
 			execve(*(ast->argv), ast->argv, VAR->chop_all("env"));
-		wait(&count);
+		waitpid(pid, &count, WUNTRACED);
 		return (WEXITSTATUS(count));
 	}
 	erreur(SHELL, error, *(ast->argv));
 	return (1);
 }
 /*
-** ici a gere assigne mieu
-*/
+ ** ici a gere assigne mieu
+ */
 int		built_in_before_fork(t_ast *ast)
 {
 	char	**av;
@@ -276,30 +289,38 @@ void	exec_sparator(t_leaf *branche, int *redir_process_du_futur)
 		free(redir_process);
 }
 
+void	return_back_fd(char *test)
+{
+	int		tmp;
+
+	tmp = ft_atoi(test);
+	dup(tmp);
+	close(tmp);
+}
+
 void	return_back(void)
 {
 	char	*test;
-	int		fd;
 
 	test = VAR->chop("hidden", "stdin");
 	if (ft_strcmp(test, "0"))
 	{
 		close(0);
-		fd = dup(ft_atoi(test));
+		return_back_fd(test);
 		VAR->add_bout("hidden", "stdin", "0");
 	}
 	test = VAR->chop("hidden", "stdout");
 	if (ft_strcmp(test, "1"))
 	{
 		close(1);
-		fd = dup(ft_atoi(test));
+		return_back_fd(test);
 		VAR->add_bout("hidden", "stdin", "1");
 	}
 	test = VAR->chop("hidden", "stderr");
 	if (ft_strcmp(test, "2"))
 	{
 		close(2);
-		fd = dup(ft_atoi(test));
+		return_back_fd(test);
 		VAR->add_bout("hidden", "stdin", "2");
 	}
 }
@@ -318,11 +339,14 @@ int		execution(t_leaf *branche, int *redir_process)
 		pid = fork();
 		if (pid == 0)
 		{
-			open_file(ast->redir, ast->argv);
+
 			if (redir_process && *(redir_process + 2))
 				dup2(*(redir_process + 1), atoi(VAR->chop("hidden", "stdout")));
 			if (redir_process)
 				dup2(*redir_process, atoi(VAR->chop("hidden", "stdin")));
+			if (open_file(ast->redir, ast->argv))
+				exit (1);
+
 			if (ast->argv && built_in(ast))
 				count = 0;
 			else if (ast->argv || (count = 0))
@@ -335,12 +359,12 @@ int		execution(t_leaf *branche, int *redir_process)
 			}
 			else
 				ft_lstiter(ast->redir, redirpass);
-		//	ft_putnbr(((t_redir *)ast->redir->content)->in);
-		close_file(ast->redir);
+			//	ft_putnbr(((t_redir *)ast->redir->content)->in);
+			close_file(ast->redir);
 			exit(count);
 		}
 		wait(&count);
-		return_back();
+		//return_back();
 		return (WEXITSTATUS(count));
 	}
 	else if (ast->flag)
