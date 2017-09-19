@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/14 01:38:28 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 22:13:54 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,20 @@ int		open_file(t_list *redir_start, void *flag_av)
 		{
 			if (*(redi->tok->start + 1) == '<')
 				d_redir_g(redi, flag_av);
-			else if (*(redi->tok->start + 1) && agregation(redi))
-				return (1);
+			else if (*(redi->tok->start + 1) == '&')
+			{
+				if (agregation(redi))
+					return (1);
+			}
 			else
 			{
 					redi->out = redi->in;
 					if ((redi->fd = open(redi->file, O_RDONLY | O_NOCTTY)) < 0)
 					{
-						write(2, "open : can't open", 8);
+						erreur(SHELL, "open", "can't open");
 						return (1);
 					}
 					redi->in = redi->fd;
-				//	if (flag_av)
-				//		dup2(redi->in, redi->out);
 			}
 		}
 		else if (*redi->tok->start == '>')
@@ -158,7 +159,7 @@ void	create_file(t_list *redir_start)
 	}
 }
 
-int		new_process(t_ast *ast, char *error)
+int		new_process(t_ast *ast, char *error, int *flag)
 {
 	pid_t	pid;
 	int		count;
@@ -167,9 +168,19 @@ int		new_process(t_ast *ast, char *error)
 	if (!access(*(ast->argv), X_OK))
 	{
 		pid = fork();
+		if (pid == -1)
+		{
+			erreur(SHELL, "fork", "echec du process");
+			return (1);
+		}
 		if (pid == 0)
+		{
 			execve(*(ast->argv), ast->argv, VAR->chop_all("env"));
-		waitpid(pid, &count, WUNTRACED);
+		}
+		if (!(flag && *(flag + 2)))
+			waitpid(-1, &count, WUNTRACED);
+		else
+			waitpid(pid, &count, WUNTRACED);
 		return (WEXITSTATUS(count));
 	}
 	erreur(SHELL, error, *(ast->argv));
@@ -212,13 +223,10 @@ int		built_in(t_ast *ast)
 		ft_echo(av);
 	else
 		return (0);
-	//while (*(av))
-	//	++av;
-	//VAR->add_bout("env", "_", *(av));
 	return (1);
 }
 
-int		exe_path(char **av, t_ast *ast)
+int		exe_path(char **av, t_ast *ast, int *flag)
 {
 	int		j;
 	char	**path;
@@ -240,11 +248,11 @@ int		exe_path(char **av, t_ast *ast)
 				free(tmp);
 		}
 		if (is_dir(*av))
-			j = new_process(ast, "command not found");
+			j = new_process(ast, "command not found", flag);
 		freeteuse((void **)path, 1);
 	}
 	else
-		new_process(ast, "le PATH est vide");
+		new_process(ast, "le PATH est vide", 0);
 	return (j);
 }
 
@@ -273,7 +281,7 @@ void	exec_sparator(t_leaf *branche, int *redir_process_du_futur)
 	if (tok->len == 1 && *tok->start == '|')
 		if ((redir_process = fume_pipe()))
 			create_file(((t_ast *)branche->droite->content)->redir);
-	ret_branche = execution(branche->gauche, redir_process);
+	ret_branche = execution(branche->gauche, redir_process, 1);
 	if (redir_process)
 	{
 		close(*(redir_process + 1));
@@ -284,9 +292,14 @@ void	exec_sparator(t_leaf *branche, int *redir_process_du_futur)
 	}
 	if (tok->len == 1 || ret_branche == (*tok->start == '|') ||
 			!ret_branche == (*tok->start == '&'))
-		execution(branche->droite, redir_process);
-	if (redir_process)
+		execution(branche->droite, redir_process, 0);
+/*	if (tok->len == 1 && *tok->start == '|')
+		waitpid(-1, &ret_branche, 0);
+*/	if (redir_process)
+	{
+		close(*redir_process);
 		free(redir_process);
+	}
 }
 
 void	return_back_fd(char *test)
@@ -325,24 +338,30 @@ void	return_back(void)
 	}
 }
 
-int		execution(t_leaf *branche, int *redir_process)
+int		execution(t_leaf *branche, int *redir_process, int pipe_g)
 {
 	int		count;
 	t_ast	*ast;
 	pid_t	pid;
 
 	ast = branche->content;
+	if (ast->argv)
+		VAR->add_bout("env", "_", *ast->argv);
 	if (!ast->flag)
 	{
 		if (!built_in_before_fork(ast))
 			return (0);
 		pid = fork();
+		if (pid == -1)
+		{
+			erreur(SHELL, "fork", "echec du process");
+			return (1);
+		}
 		if (pid == 0)
 		{
-
 			if (redir_process && *(redir_process + 2))
 				dup2(*(redir_process + 1), atoi(VAR->chop("hidden", "stdout")));
-			if (redir_process)
+			if (redir_process && !pipe_g)
 				dup2(*redir_process, atoi(VAR->chop("hidden", "stdin")));
 			if (open_file(ast->redir, ast->argv))
 				exit (1);
@@ -353,9 +372,9 @@ int		execution(t_leaf *branche, int *redir_process)
 			{
 				VAR->add_bout("env", "_", *(ast->argv));
 				if (ft_strchr(*(ast->argv), '/'))
-					count = new_process(ast, "no such file or directory");
+					count = new_process(ast, "no such file or directory", redir_process);
 				else
-					count = exe_path(ast->argv, ast);
+					count = exe_path(ast->argv, ast, redir_process);
 			}
 			else
 				ft_lstiter(ast->redir, redirpass);
@@ -364,7 +383,6 @@ int		execution(t_leaf *branche, int *redir_process)
 			exit(count);
 		}
 		wait(&count);
-		//return_back();
 		return (WEXITSTATUS(count));
 	}
 	else if (ast->flag)

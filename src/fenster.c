@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/14 01:52:07 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 20:41:51 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	del_t_ast(void *ast, size_t tamere)
 	free(ast);
 }
 
-void execmain(char *string)
+void	execmain(char *string)
 {
 	t_lexer		*tex;
 	t_leaf		*start;
@@ -67,7 +67,7 @@ void execmain(char *string)
 	lexer(tex);
 	start = ast(*tex);
 	if (!VAR->chop("hidden", "parse"))
-		execution(start, NULL);
+		execution(start, NULL, 0);
 	else
 		VAR->unset("hidden", "parse");
 	ft_treedel(&start, del_t_ast);
@@ -78,7 +78,7 @@ void execmain(char *string)
 	free(string);
 }
 
-void sig_fpe(int sig)
+void	sig_fpe(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);

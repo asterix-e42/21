@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 20:19:34 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/04 00:47:33 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 22:13:57 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "mini.h"
 
-void pass(int fd_read, int fd_write)
+void		pass(int fd_read, int fd_write)
 {
 	char		str[BUFF_SIZE + 1];
 	int			len_read;
@@ -25,10 +25,10 @@ void pass(int fd_read, int fd_write)
 		*(str + len_read) = '\0';
 		write(fd_write, str, ft_strlen(str));
 	}
-	close (fd_write);
+	close(fd_write);
 }
 
-void	redirpass(t_list *elem)
+void		redirpass(t_list *elem)
 {
 	t_redir		*ast;
 
@@ -44,7 +44,6 @@ void		d_redir_g(t_redir *redir, char *flag_av)
 	int		*fd;
 
 	fd = fume_pipe();
-	
 	redir->out = redir->in;
 	write(1, "heredoc> ", 9);
 	while (get_next_line(0, &str))
@@ -56,7 +55,6 @@ void		d_redir_g(t_redir *redir, char *flag_av)
 		ft_putchar_fd('\n', (*(fd + 1)));
 	}
 	close(*(fd + 1));
-	//printf("%s -> %lx\n", redir->file, (long int)redir->file);
 	if (!flag_av)
 		redir->in = *fd;
 	else

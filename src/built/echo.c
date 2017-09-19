@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 01:50:03 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/06 02:13:51 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 21:14:54 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 void	ft_echo(char **av)
 {
-	if (!*(av + 1))
-		write(1, "\n", 1);
-	else
+	char	*verrif;
+
+	if ((verrif = *(av + 1)))
 		while (*(++av))
-			ft_putendl(*av);
+		{
+			if (verrif != *av)
+				write(1, " ", 1);
+			ft_putstr(*av);
+		}
+	write(1, "\n", 1);
 }

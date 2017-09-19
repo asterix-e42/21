@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 10:06:07 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/07 02:28:28 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 20:42:56 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ void	ajout_str(char *c, t_data *my_block)
 
 void	cutpaste(char *c, t_data *blk)
 {
-
-	write(1, ", ", 1);
 	if (*c == -30 && *(c + 1) == -119 && *(c + 2) == -120)
 	{
 		cutinhist("paste", blk->str);

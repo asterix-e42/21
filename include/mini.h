@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/05 23:30:45 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 18:12:18 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_data			*t_dat_init(void);
 */
 void			sheel(char **av);
 int				exe(char *av);
-int				execution(t_leaf *branche, int *redir);
+int				execution(t_leaf *branche, int *redir, int pipe);
 /*
 ** environement
 */
@@ -59,7 +59,7 @@ int				insert_home(char **s, int r);
 int				variable(char **s, int symb);
 int				echapement(char **s, int symb);
 int				is_dir(char *s);
-int				new_process(t_ast *ast, char *error);
+int				new_process(t_ast *ast, char *error, int *flag);
 
 char			*ft_strjoini(char const *s1, char const *s2, char c);
 void			freeteuse(void **s, int niveau);

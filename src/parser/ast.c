@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/14 02:02:23 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 22:14:01 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,8 +211,6 @@ void	set_ast_args(t_token *elem, t_ast *ast)
 	int		flag_cote;
 
 	flag_cote = (elem->type == TK_SCOTE || elem->type == TK_DCOTE);
-	if (flag_cote && elem->len == 2)
-		return ;
 	str = ft_strnew(elem->len - (2 * flag_cote));
 	ft_strncat(str, elem->start + flag_cote, elem->len - (2 * flag_cote));
 	if (elem->type != TK_SCOTE)

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/07 00:37:39 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 20:53:12 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char				*lecture(t_data *my_block)
 
 	while ((lec = read(0, c, 1024)) > 0)
 	{
-
 		*(c + lec) = 0;
 		if (*(c) == 3)
 			return (NULL);
@@ -85,7 +84,7 @@ char				*alloc_brute_to_fd(int fd)
 		{
 			tmp = ret;
 			ret = ft_strjoin(ret, buf);
-			free (tmp);
+			free(tmp);
 		}
 	}
 	return (ret);

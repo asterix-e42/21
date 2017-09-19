@@ -1,0 +1,63 @@
+saisie	sizemax
+saisie	multiligne
+lexer	cote -> saisie
+saisie	backslach
+lexer	{ -> (
+
+NORME x(
+
+Norme: ./src/fenster.c
+Norme: ./src/lexer/lexer.c
+Norme: ./src/parser/ast.c
+Norme: ./src/grsa.c
+
+
+Norme: ./src/fenster.c
+Error: 7 functions in the file
+Norme: ./src/lexer/lexer.c
+Error: 16 functions in the file
+Norme: ./src/parser/ast.c
+Error: global scope bad aligned
+Error: 10 functions in the file
+Error (line 54): function new_ast has 36 lines
+Error (line 94): function add_control has 37 lines
+Error (line 174): bad spacing after str_strlen
+Error (line 186): bad spacing before set_ast_assignement
+Error (line 206): function set_ast_args has 31 lines
+Error (line 241): function ast has 36 lines
+Norme: ./src/grsa.c
+Error: 15 functions in the file
+Error (line 64, col 1): missing space after if
+Error (line 72): declarations must be followed by one empty line in close_file
+Error (line 83): function open_file has 57 lines
+Error (line 98): bad indentation
+Error (line 99): bad indentation
+Error (line 100): bad indentation
+Error (line 101): bad indentation
+Error (line 102): bad indentation
+Error (line 103): bad indentation
+Error (line 104): bad indentation
+Error (line 116): bad indentation
+Error (line 117): bad indentation
+Error (line 119): bad indentation
+Error (line 120): bad indentation
+Error (line 123): C++ comment
+Error (line 124): C++ comment
+Error (line 127): bad indentation
+Error (line 127): C++ comment
+Error (line 130): Empty line
+Error (line 131): comment not well formatted
+Error (line 131): comment not well placed
+Error (line 159): bad spacing after new_process
+Error (line 186): comment not well formatted
+Error (line 189): bad spacing before built_in_before_fork
+Error (line 226): function exe_path has 26 lines
+Error (line 270): function exec_sparator has 28 lines
+Error (line 293): comment not well formatted
+Error (line 338): function execution has 49 lines
+Error (line 359): Empty line
+Error (line 365, col 9): Spacing after call to exit
+Error (line 366): Empty line
+Error (line 373): line has 90 characters
+Error (line 379): bad indentation
+Error (line 379): C++ comment

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 01:28:49 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/07 00:29:59 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/19 20:41:11 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	ft_setenv(t_ast *ast)
 	if (!(nam = VAR->chop(*ast->argv + 3, 0)))
 		return ;
 	i = 0;
-	if (!(ast->assign) || ft_strncmp(nam, "hidden", 6))
-	{
+	if (!(ast->assign) || !ft_strncmp(nam, "hidden", 6))
 		VAR->print(nam, NULL);
-	}
 	else
 	{
 		while (*(ast->assign + i))
