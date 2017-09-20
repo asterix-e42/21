@@ -17,6 +17,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <lexer.h>
+#include <signal.h>
 
 int		main(int ac, char **av, char **ae)
 {

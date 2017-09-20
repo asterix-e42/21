@@ -16,6 +16,9 @@
 #include "libft.h"
 #include "mini.h"
 #include "lexer.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+
 
 void	change(char **s, int flagcote, char **test)
 {
@@ -32,7 +35,7 @@ void	change(char **s, int flagcote, char **test)
 		else if (*(*s + i) == '\\')
 			i += echapement(s, i);
 		else if (*(*s + i) == '*')
-			;
+			i = i;
 		++i;
 	}
 }
@@ -146,15 +149,14 @@ int		open_file(t_list *redir_start, void *flag_av)
 
 void	create_file(t_list *redir_start)
 {
-	int		open_close;
+	//int		open_close;
 	t_redir	*redir;
 
 	while (redir_start && (redir = ((t_redir *)redir_start->content)))
 	{
 		if (redir->out <= -1 && *redir->tok->start == '>')
-			if (((open_close = creat(redir->file,
-								S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0))
-				;
+			creat(redir->file,
+								S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		redir_start = redir_start->next;
 	}
 }
@@ -291,7 +293,7 @@ void	exec_sparator(t_leaf *branche, int *redir_process_du_futur)
 			*(redir_process + 2) = 0;
 	}
 	if (tok->len == 1 || ret_branche == (*tok->start == '|') ||
-			!ret_branche == (*tok->start == '&'))
+			ret_branche != (*tok->start == '&'))
 		execution(branche->droite, redir_process, 0);
 /*	if (tok->len == 1 && *tok->start == '|')
 		waitpid(-1, &ret_branche, 0);

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <termios.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <term.h>
 #include "g.h"
 #include "libft.h"
 

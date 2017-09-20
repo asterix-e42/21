@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 
 #include <termios.h>
-#include <term.h>
+//#include <term.h>
 
 int		pass_canonique(void)
 {
 	struct termios term;
 
-	term.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP
+	term.c_iflag = ~(IGNBRK | BRKINT | PARMRK | ISTRIP
 			| INLCR | IGNCR | ICRNL | IXON);
-	term.c_oflag &= ~OPOST;
-	term.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
-	term.c_cflag &= ~(CSIZE | PARENB);
+	term.c_oflag = ~OPOST;
+	term.c_lflag = ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
+	term.c_cflag = ~(CSIZE | PARENB);
 	term.c_cflag |= CS8;
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;

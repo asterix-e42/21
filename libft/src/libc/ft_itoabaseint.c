@@ -21,13 +21,13 @@ char	*ft_itoabaseint(unsigned int nb, char *b2)
 	char				*ret;
 	unsigned long int	tmp;
 	size_t				size;
-	int					skt;
+	//int					skt;
 	unsigned int		max;
 
 	if (!b2 && !*b2 && !*(b2 + 1))
 		return (0);
 	tmp = nb;
-	skt = 0;
+	//skt = 0;
 	max = ft_strlen(b2);
 	size = 1;
 	while (tmp /= max)
