@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/19 22:13:54 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/20 15:25:22 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	change(char **s, int flagcote, char **test)
 		else if (*(*s + i) == '\\')
 			i += echapement(s, i);
 		else if (*(*s + i) == '*')
-			i = i;
+			i += 0;
 		++i;
 	}
 }

@@ -1,7 +1,5 @@
-saisie	sizemax
-saisie	multiligne
+saisie	multiligne :  mouai bof
 lexer	cote -> saisie
-saisie	backslach
 lexer	{ -> (
 
 NORME x(

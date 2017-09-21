@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/19 20:53:12 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/21 06:37:59 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,30 @@
 #include <unistd.h>
 #include "g.h"
 #include "libft.h"
+#include <sys/ioctl.h>
 
-void				ft_write(int fd, char *str, int len)
+void				ft_write(int fd, t_data *blk)
 {
-	int		i;
-	int		j;
+	int				i;
+	int				j;
+	struct winsize	w;
 
+	ioctl(0, TIOCGWINSZ, &w);
 	i = -1;
 	j = -1;
-	while (++j != -1 && ++i < len)
+	while (++j != -1 && ++i < blk->len)
 	{
-		if (*(str + i) == '\n')
+		if (*(blk->str + i) == '\n')
 		{
-			write(fd, str + i - j, j + 1);
+			write(fd, blk->str + i - j, j + 1);
 			j = -1;
 			write(1, "\r", 1);
 		}
 	}
-	write(fd, str + i - j + (*(str + i - j) == '\n'), j);
+	write(fd, blk->str + i - j, j);// + (*(blk->str + i - j) == '\n'), j);
+	write(1, " ", 1);
+	//if ((j != i && !(j % w.ws_col)) || (i == j && j + blk->pos_start ==  w.ws_col))
+	//	write(1, "\r\n", 2);
 }
 
 static void			lecture_autre(int lec, char *c, t_data *my_block)
@@ -55,7 +61,14 @@ char				*lecture(t_data *my_block)
 		*(c + lec) = 0;
 		if (*(c) == 3)
 			return (NULL);
-		if (*(c) == 13 || *c == 4)
+		if (*(c) == 13 && *(my_block->str + my_block->len - 1) == '\\')
+		{
+			clean(my_block);
+			my_block->pointeur = my_block->len;
+			*(my_block->str + my_block->len - 1) = '\n';
+			ft_write(1, my_block);
+		}
+		else if (*(c) == 13 || *c == 4)
 			return (set_hist(my_block->str, *c));
 		if (31 < *c || *c == '\n')
 			ajout_str(c, my_block);

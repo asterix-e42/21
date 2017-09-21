@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:42:34 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/03 21:39:41 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/21 03:27:14 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # define MIN(x,y) ((x) < (y) ? (x) : (y))
 # define MAX(x,y) ((x) > (y) ? (x) : (y))
+
+# define SIZE_WRITE 512
 
 typedef struct	s_data {
 	char	*str;
@@ -50,7 +52,7 @@ char			*set_hist(char *stri, char c);
 void			cutinhist(char *pas, char *nam);
 
 void			replace(t_data *blk, char *n);
-void			ft_write(int fd, char *str, int len);
+void			ft_write(int fd, t_data *b);
 void			cutpaste(char *c, t_data *b);
 void			ajout_str(char *c, t_data *blk);
 
