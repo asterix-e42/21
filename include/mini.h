@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/19 18:12:18 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 02:06:48 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct	s_data {
 /*
 ** termcaps
 */
-char			*saisie(void);
+char			*saisie(char *aff, int contrd);
 void			clean(t_data *blk);
 void			yolo(int dir, int y);
 t_data			*t_dat_init(void);
@@ -43,7 +43,7 @@ int				execution(t_leaf *branche, int *redir, int pipe);
 /*
 ** environement
 */
-void			lvlup(void);
+void			lvlup(char *env, char *lvl);
 /*
 ** redirection
 */

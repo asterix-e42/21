@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/21 06:37:59 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 03:40:37 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void			lecture_autre(int lec, char *c, t_data *my_block)
 		cutpaste(c, my_block);
 }
 
-char				*lecture(t_data *my_block)
+char				*lecture(t_data *my_block, int contrd)
 {
 	char	c[1024];
 	int		lec;
@@ -60,15 +60,13 @@ char				*lecture(t_data *my_block)
 	{
 		*(c + lec) = 0;
 		if (*(c) == 3)
-			return (NULL);
-		if (*(c) == 13 && *(my_block->str + my_block->len - 1) == '\\')
 		{
-			clean(my_block);
-			my_block->pointeur = my_block->len;
-			*(my_block->str + my_block->len - 1) = '\n';
-			ft_write(1, my_block);
+			free(my_block->str);
+			return (NULL);
 		}
-		else if (*(c) == 13 || *c == 4)
+		if (*(c) == 13 && *(my_block->str + my_block->len - 1) == '\\')
+			*c = '\n';
+		else if (*(c) == 13 || (*c == 4 && contrd))
 			return (set_hist(my_block->str, *c));
 		if (31 < *c || *c == '\n')
 			ajout_str(c, my_block);
@@ -103,7 +101,7 @@ char				*alloc_brute_to_fd(int fd)
 	return (ret);
 }
 
-char				*saisie(void)
+char				*saisie(char *promt, int contrd)
 {
 	t_data			*my_block;
 	struct termios	term;
@@ -118,12 +116,14 @@ char				*saisie(void)
 	}
 	if (tcgetattr(0, &term) == -1)
 		return (0);
-	write(1, "\r🦄 > \x1b[39m", 13);
-	if (!(my_block = t_dat_init()))
+	write(1, "\r", 1); 
+	write(1, promt, ft_strlen(promt)); 
+	write(1, "> \x1b[39m", 7);
+	if (!(my_block = t_dat_init(promt)))
 		return (NULL);
 	if (pass_canonique())
 		return (NULL);
-	read = lecture(my_block);
+	read = lecture(my_block, contrd);
 	if (tcsetattr(0, 0, &term) == -1)
 		return (NULL);
 	write(1, "\n", 1);

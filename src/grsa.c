@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/20 15:25:22 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 02:00:11 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int		new_process(t_ast *ast, char *error, int *flag)
 	int		count;
 
 	(void)ast;
+	(void)flag;
 	if (!access(*(ast->argv), X_OK))
 	{
 		pid = fork();
@@ -176,13 +177,8 @@ int		new_process(t_ast *ast, char *error, int *flag)
 			return (1);
 		}
 		if (pid == 0)
-		{
 			execve(*(ast->argv), ast->argv, VAR->chop_all("env"));
-		}
-		if (!(flag && *(flag + 2)))
-			waitpid(-1, &count, WUNTRACED);
-		else
-			waitpid(pid, &count, WUNTRACED);
+		waitpid(-1, &count, 0);
 		return (WEXITSTATUS(count));
 	}
 	erreur(SHELL, error, *(ast->argv));
@@ -262,13 +258,14 @@ int		*fume_pipe(void)
 {
 	int			*pipe_ret;
 
-	pipe_ret = (int *)malloc(sizeof(int) * 3);
+	pipe_ret = (int *)malloc(sizeof(int) * 4);
 	if (pipe(pipe_ret))
 	{
 		write(2, "Erreur de création du tube.\n", 20);
 		return (NULL);
 	}
 	*(pipe_ret + 2) = -1;
+	*(pipe_ret + 3) = 2;
 	return (pipe_ret);
 }
 
@@ -288,7 +285,10 @@ void	exec_sparator(t_leaf *branche, int *redir_process_du_futur)
 	{
 		close(*(redir_process + 1));
 		if (redir_process_du_futur)
+		{
 			*(redir_process + 1) = *(redir_process_du_futur + 1);
+			*(redir_process_du_futur + 3) += *(redir_process + 3) - 1;
+		}
 		else
 			*(redir_process + 2) = 0;
 	}
@@ -384,7 +384,14 @@ int		execution(t_leaf *branche, int *redir_process, int pipe_g)
 			close_file(ast->redir);
 			exit(count);
 		}
-		wait(&count);
+		if (pid && !(redir_process && *(redir_process + 2)))
+		{
+			if (redir_process)
+				while((--*(redir_process + 3)) != -1)
+					waitpid(-1, &count, 0);
+			waitpid(pid, &count, 0);
+		}
+		//wait(&count);
 		return (WEXITSTATUS(count));
 	}
 	else if (ast->flag)

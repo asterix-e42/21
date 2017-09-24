@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/19 20:41:51 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 03:46:37 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,44 @@ void	sig_fpe(int sig)
 	write(1, "\n", 1);
 }
 
+int		coteacote(char *string)
+{
+	char *tmp;
+
+	if ((tmp = ft_strchr(string, '\'')) || (tmp = ft_strchr(string, '\"')))
+	{
+		while ((tmp = ft_strchr(tmp + 1, *tmp)))
+			if ((*tmp == '\'' || *(tmp - 1) != '\\') && ++tmp)
+				return(coteacote(tmp));
+	}
+	else
+		return(0);
+	return(1);
+}
+
 void	sheel(char **av)
 {
 	char		*string;
+	char		*tmp;
 
 	whereareyou("PWD");
 	VAR->add_bout("env", "_", *av);
-	lvlup();
+	lvlup("env", "SHLVL");
 	if (signal(SIGINT, sig_fpe) == SIG_ERR)
 		write(2, "Le gestionnaire de signal n'a pu etre defini.", 45);
 	while (1)
 	{
-		if (!(string = saisie()))
+		if (!(string = saisie("🦄 ", 1)))
 			continue ;
+		while (coteacote(string))
+		{
+			ft_stralloc(&string, "\n");
+			if (!(tmp = saisie("quote", 0)))
+				*string = '\0';
+			else
+				ft_stralloc(&string, tmp);
+			free(tmp);
+		}
 		execmain(string);
 	}
 }

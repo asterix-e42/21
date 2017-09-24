@@ -6,11 +6,12 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:26:20 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/20 23:37:08 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/23 23:30:04 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "g.h"
 #include "libft.h"
 #include <stdlib.h>
 

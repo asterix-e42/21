@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:42:34 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/21 03:27:14 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 02:36:50 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ typedef struct	s_fd{
 }				t_fd;
 
 void			execmain(char *string);
-char			*saisie(void);
+char			*saisie(char *aff, int contrd);
 void			clean(t_data *blk);
 void			yolo(int dir, int y);
-t_data			*t_dat_init(void);
+t_data			*t_dat_init(char *e);
 void			point(t_data *blk, int fg);
 void			set_t_data_pointeur(t_data *blk, int inc);
 

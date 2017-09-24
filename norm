@@ -1,6 +1,9 @@
 saisie	multiligne :  mouai bof
-lexer	cote -> saisie
+copier coller  \n
+historique
+"" -> "\0"
 lexer	{ -> (
+
 
 NORME x(
 
