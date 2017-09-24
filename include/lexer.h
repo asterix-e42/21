@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 17:31:39 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/06 02:45:47 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 18:56:14 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_H
 
 # include "libft.h"
+# define SHELL "miniii"
 
 typedef enum	e_token_type
 {
@@ -98,5 +99,6 @@ t_lexer			*lexer_init(char *str);
 void			change(char **s, int flagcote, char **sdg);
 
 t_list			*get_resv(void);
+void			erreur(char *a, char *s, char *d);
 
 #endif

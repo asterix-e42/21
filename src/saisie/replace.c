@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 10:06:07 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/23 23:30:19 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 20:40:33 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,19 @@ void	replace(t_data *my_block, char *new)
 
 void	ajout_str(char *c, t_data *my_block)
 {
+//	char	*returnligne;
+
 	clean(my_block);
-//	sleep(1);
 	if (*c == 127)
 		ft_alloc(my_block, NULL);
+//	if ((returnligne = ft_strchr(c, 13)))
+//	{
+		//write(0, returnligne, 1);
+//		*returnligne = '\0';
+//	}
 	else if (my_block->len + ft_strlen(c) < SIZE_WRITE)
 		ft_alloc(my_block, c);
-//	sleep(1);
 	ft_write(1, my_block);
-//	sleep(1);
 	point(my_block, 1);
 }
 

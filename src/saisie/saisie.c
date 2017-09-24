@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 03:40:37 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 20:40:31 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,39 @@ char				*lecture(t_data *my_block, int contrd)
 {
 	char	c[1024];
 	int		lec;
+	char	*returnligne;
+	char	*tmp;
 
-	while ((lec = read(0, c, 1024)) > 0)
+	tmp = NULL;
+	while (tmp || (lec = read(0, c, 1024)) > 0)
 	{
+
+		if (!tmp)
+			returnligne = c;
+		else
+			returnligne = tmp;
 		*(c + lec) = 0;
-		if (*(c) == 3)
+		if (*(returnligne) == 3)
 		{
 			free(my_block->str);
 			return (NULL);
 		}
-		if (*(c) == 13 && *(my_block->str + my_block->len - 1) == '\\')
-			*c = '\n';
-		else if (*(c) == 13 || (*c == 4 && contrd))
-			return (set_hist(my_block->str, *c));
-		if (31 < *c || *c == '\n')
-			ajout_str(c, my_block);
+		if (*(returnligne) == 13 && *(my_block->str + my_block->len - 1) == '\\')
+			*returnligne = '\n';
+		else if (*(returnligne) == 13)
+			return(my_block->str);
+		else if ((*returnligne == 4 && contrd))
+			return ("exit");
+		if (31 < *returnligne || *returnligne == '\n')
+		{
+			if ((tmp = ft_strchr(returnligne, 13)))
+				*(tmp) = '\0';
+			ajout_str(returnligne, my_block);
+			if (tmp)
+				*tmp = 13;
+		}
 		else
-			lecture_autre(lec, c, my_block);
+			lecture_autre(lec, returnligne, my_block);
 	}
 	return (my_block->str);
 }
@@ -110,8 +126,8 @@ char				*saisie(char *promt, int contrd)
 	read = NULL;
 	if (!isatty(0))
 	{
-		read = alloc_brute_to_fd(0);
-		execmain(read);
+		if (get_next_line(0, &read) > 0)
+			execmain(read);
 		exit(0);
 	}
 	if (tcgetattr(0, &term) == -1)

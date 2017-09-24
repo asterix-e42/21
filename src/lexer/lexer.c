@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:26:20 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/23 23:30:04 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 20:40:29 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ static t_res_name	lexer_get_comment(char *str)
 	if (!((*str == '#' && 1) || (*str == '\n' && *(str + 1) == '#')))
 		return (ret);
 	ret.type = TK_COMMENT;
-	ret.text = ft_strchr(str + 1, '\n') + 1;
+	if ((int)(ret.text = ft_strchr(str + 1, '\n') + 1) == 1)
+		ret.text = ft_strchr(str + 1, '\0');
 	return (ret);
 }
 
@@ -247,10 +248,12 @@ void				lexer(t_lexer *tex)
 	t_res_name	parc;
 	char		*str;
 	t_list		*toks;
+	int			ite;
 
 	ft_lstaddend(&(tex->token), new_token(parc.text = tex->input));
 	toks = tex->token;
-	while ((str = parc.text) && *str)
+	ite = 1000;
+	while ((str = parc.text) && *str && ite)
 	{
 		while (verrif_all(str, &parc) && parc.text)
 		{
@@ -258,9 +261,13 @@ void				lexer(t_lexer *tex)
 			ft_lstaddend(&(toks), new_token(parc.text));
 			toks = toks->next;
 			str = parc.text;
+			ite = 1000;
 		}
 		if (!parc.text || !*parc.text)
 			return ;
+		--ite;
 	}
+	if (!ite)
+		erreur(SHELL, "lexer iteration", str);
 	set_token_len((toks), parc);
 }

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 06:18:13 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 03:46:40 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 16:18:39 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_hist(int up)
 	return (str_ret);
 }
 
-char	*set_hist(char *str, char c)
+void	set_hist(char *str)
 {
 	char	*rang;
 
@@ -43,11 +43,8 @@ char	*set_hist(char *str, char c)
 		VAR->add_bout("hidden", "comp", rang);
 		free(rang);
 	}
-	else if (c == 4)
-		str = "exit";
 	else
 		VAR->add_bout("hidden", "comp", rang);
-	return (str);
 }
 
 void	cutinhist(char *pas, char *nam)

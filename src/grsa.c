@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 02:00:11 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 19:01:07 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	change(char **s, int flagcote, char **test)
 		if (*(*s + i) == '$' && *(*s + i + 1))
 			i += variable(s, i) - 1;
 		else if (!flagcote && i == 0 && (vr = VAR->chop("alias", *s)) && !test)
+		{
 			i = copy(s, 0, vr, ft_strlen(*s)) - 1;
+		}
 		else if (*(*s + i) == '\\')
 			i += echapement(s, i);
 		else if (*(*s + i) == '*')
@@ -234,7 +236,7 @@ int		exe_path(char **av, t_ast *ast, int *flag)
 	if ((path = ft_strsplit(VAR->chop("env", "PATH"), ':')))
 	{
 		j = -1;
-		while (*(path + ++j))
+		while (**av && *(path + ++j))
 		{
 			tmp = ft_strjoini(*(path + j), *av, '/');
 			if (!access(tmp, F_OK))
@@ -246,7 +248,9 @@ int		exe_path(char **av, t_ast *ast, int *flag)
 				free(tmp);
 		}
 		if (is_dir(*av))
+		{
 			j = new_process(ast, "command not found", flag);
+		}
 		freeteuse((void **)path, 1);
 	}
 	else

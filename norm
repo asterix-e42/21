@@ -1,8 +1,7 @@
 saisie	multiligne :  mouai bof
-copier coller  \n
-historique
-"" -> "\0"
+copier coller  \n		presque mais sa passe a peu pres
 lexer	{ -> (
+{}
 
 
 NORME x(

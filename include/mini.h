@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 02:06:48 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 18:56:06 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int				*fume_pipe(void);
 /*
 ** utils
 */
+void			set_hist(char *str);
 int				copy(char **s, int symb, char *insert, int save_p);
 int				insert_home(char **s, int r);
 int				variable(char **s, int symb);

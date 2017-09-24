@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 03:46:37 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/24 20:21:05 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void	sheel(char **av)
 		write(2, "Le gestionnaire de signal n'a pu etre defini.", 45);
 	while (1)
 	{
-		if (!(string = saisie("🦄 ", 1)))
-			continue ;
+		while (!(string = saisie("🦄 ", 1)))
+			set_hist(string);
 		while (coteacote(string))
 		{
 			ft_stralloc(&string, "\n");
@@ -123,6 +123,7 @@ void	sheel(char **av)
 				ft_stralloc(&string, tmp);
 			free(tmp);
 		}
+		set_hist(string);
 		execmain(string);
 	}
 }
