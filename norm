@@ -1,7 +1,7 @@
 saisie	multiligne :  mouai bof
 copier coller  \n		presque mais sa passe a peu pres
 lexer	{ -> (
-{}
+{}					: ignorer
 
 
 NORME x(

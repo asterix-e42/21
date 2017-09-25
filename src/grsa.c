@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 19:01:07 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/25 15:52:25 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,6 +398,8 @@ int		execution(t_leaf *branche, int *redir_process, int pipe_g)
 		//wait(&count);
 		return (WEXITSTATUS(count));
 	}
+	else if (ast->flag == 5)
+		;
 	else if (ast->flag)
 		exec_sparator(branche, redir_process);
 	return (1);
