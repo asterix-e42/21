@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 16:04:33 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/25 19:57:04 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-t_list	*new_redir(t_lexer *lex)
+t_list		*new_redir(t_lexer *lex)
 {
 	t_redir		ret;
 
@@ -41,9 +41,9 @@ t_list	*new_redir(t_lexer *lex)
 	return (ft_lstnew(&ret, sizeof(t_redir)));
 }
 
-int		next_type(t_list *lex, t_token_type type)
+int			next_type(t_list *lex, t_token_type type)
 {
-	t_token *tok;
+	t_token		*tok;
 
 	while ((tok = (t_token *)lex->next->content) && tok->len && (
 				tok->type == TK_BLANK))
@@ -51,10 +51,10 @@ int		next_type(t_list *lex, t_token_type type)
 	return (tok->type == type || !tok->len);
 }
 
-t_leaf	*new_ast(t_lexer *lex, char flag)
+t_leaf		*new_ast(t_lexer *lex, char flag)
 {
-	t_ast	ret;
-	t_leaf	*leaf;
+	t_ast		ret;
+	t_leaf		*leaf;
 
 	while (flag && (((t_token *)lex->token->content)->len) &&
 			((t_token *)(lex->token->content))->type == TK_BLANK)
@@ -91,9 +91,9 @@ t_leaf	*new_ast(t_lexer *lex, char flag)
 	return (leaf);
 }
 
-int		add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
+int			add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
 {
-	t_leaf	*tmp;
+	t_leaf		*tmp;
 
 	if (!(tmp = new_ast((t_lexer *)tok, 0)))
 		return (1);
@@ -132,10 +132,10 @@ int		add_control(t_leaf **start, t_leaf **pourquoi, t_token *tok)
 	return (0);
 }
 
-t_leaf	*new_secleaf(t_token *tok)
+t_leaf		*new_secleaf(t_token *tok)
 {
-	t_lexer	*sec_lex;
-	char	*tmp;
+	t_lexer		*sec_lex;
+	char		*tmp;
 
 	if (tok->len <= 2)
 	{
@@ -153,8 +153,8 @@ t_leaf	*new_secleaf(t_token *tok)
 
 char		**str_str_ralloc(int diff, char **str)
 {
-	char	**new;
-	int		lenght;
+	char		**new;
+	int			lenght;
 
 	lenght = -1;
 	if (!str)
@@ -171,23 +171,25 @@ char		**str_str_ralloc(int diff, char **str)
 	return (new);
 }
 
-int		str_strlen(void **s)
+int			str_strlen(void **s)
 {
-	size_t	t;
+	size_t		t;
 
 	t = 0;
 	while (*(t + s))
 		t++;
 	return (t);
 }
+
 /*
 ** env non gere
 */
-void	set_ast_assignement(t_token *elem, t_ast *ast)
+
+void		set_ast_assignement(t_token *elem, t_ast *ast)
 {
-	char	**tmp;
-	char	*str;
-	int		lenght;
+	char		**tmp;
+	char		*str;
+	int			lenght;
 
 	lenght = -1;
 	if (!ast->assign)
@@ -203,12 +205,12 @@ void	set_ast_assignement(t_token *elem, t_ast *ast)
 	ast->assign = tmp;
 }
 
-void	set_ast_args(t_token *elem, t_ast *ast)
+void		set_ast_args(t_token *elem, t_ast *ast)
 {
-	char	**tmp;
-	char	**tmp2;
-	char	*str;
-	int		flag_cote;
+	char		**tmp;
+	char		**tmp2;
+	char		*str;
+	int			flag_cote;
 
 	flag_cote = (elem->type == TK_SCOTE || elem->type == TK_DCOTE);
 	str = ft_strnew(elem->len - (2 * flag_cote));
@@ -236,10 +238,10 @@ void	set_ast_args(t_token *elem, t_ast *ast)
 	free(str);
 }
 
-t_leaf	*ast(t_lexer lex)
+t_leaf		*ast(t_lexer lex)
 {
-	t_leaf	*start;
-	t_leaf	*parceque;
+	t_leaf		*start;
+	t_leaf		*parceque;
 
 	if (!(start = new_ast(&lex, 1)))
 		return (NULL);

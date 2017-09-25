@@ -6,13 +6,12 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 22:15:16 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/23 23:31:29 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/25 19:58:19 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-//#include <term.h>
 #include "g.h"
 #include "libft.h"
 

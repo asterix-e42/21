@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 20:40:31 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/25 20:16:55 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ void				ft_write(int fd, t_data *blk)
 			write(1, "\r", 1);
 		}
 	}
-	write(fd, blk->str + i - j, j);// + (*(blk->str + i - j) == '\n'), j);
+	write(fd, blk->str + i - j, j);
 	write(1, " ", 1);
-	//if ((j != i && !(j % w.ws_col)) || (i == j && j + blk->pos_start ==  w.ws_col))
-	//	write(1, "\r\n", 2);
 }
 
 static void			lecture_autre(int lec, char *c, t_data *my_block)
@@ -55,39 +53,38 @@ char				*lecture(t_data *my_block, int contrd)
 {
 	char	c[1024];
 	int		lec;
-	char	*returnligne;
+	char	*returnlign;
 	char	*tmp;
 
 	tmp = NULL;
 	while (tmp || (lec = read(0, c, 1024)) > 0)
 	{
-
 		if (!tmp)
-			returnligne = c;
+			returnlign = c;
 		else
-			returnligne = tmp;
+			returnlign = tmp;
 		*(c + lec) = 0;
-		if (*(returnligne) == 3)
+		if (*(returnlign) == 3)
 		{
 			free(my_block->str);
 			return (NULL);
 		}
-		if (*(returnligne) == 13 && *(my_block->str + my_block->len - 1) == '\\')
-			*returnligne = '\n';
-		else if (*(returnligne) == 13)
-			return(my_block->str);
-		else if ((*returnligne == 4 && contrd))
+		if (*(returnlign) == 13 && *(my_block->str + my_block->len - 1) == '\\')
+			*returnlign = '\n';
+		else if (*(returnlign) == 13)
+			return (my_block->str);
+		else if ((*returnlign == 4 && contrd))
 			return ("exit");
-		if (31 < *returnligne || *returnligne == '\n')
+		if (31 < *returnlign || *returnlign == '\n')
 		{
-			if ((tmp = ft_strchr(returnligne, 13)))
+			if ((tmp = ft_strchr(returnlign, 13)))
 				*(tmp) = '\0';
-			ajout_str(returnligne, my_block);
+			ajout_str(returnlign, my_block);
 			if (tmp)
 				*tmp = 13;
 		}
 		else
-			lecture_autre(lec, returnligne, my_block);
+			lecture_autre(lec, returnlign, my_block);
 	}
 	return (my_block->str);
 }
@@ -123,7 +120,6 @@ char				*saisie(char *promt, int contrd)
 	struct termios	term;
 	char			*read;
 
-	read = NULL;
 	if (!isatty(0))
 	{
 		if (get_next_line(0, &read) > 0)
@@ -132,8 +128,8 @@ char				*saisie(char *promt, int contrd)
 	}
 	if (tcgetattr(0, &term) == -1)
 		return (0);
-	write(1, "\r", 1); 
-	write(1, promt, ft_strlen(promt)); 
+	write(1, "\r", 1);
+	write(1, promt, ft_strlen(promt));
 	write(1, "> \x1b[39m", 7);
 	if (!(my_block = t_dat_init(promt)))
 		return (NULL);

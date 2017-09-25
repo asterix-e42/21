@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 20:21:05 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/25 19:41:02 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,16 @@ int		coteacote(char *string)
 {
 	char *tmp;
 
-	if ((tmp = ft_strchr(string, '\'')) || (tmp = ft_strchr(string, '\"')))
+	if ((tmp = ft_strchr(string, '\''))
+	|| (tmp = ft_strchr(string, '\"')))
 	{
 		while ((tmp = ft_strchr(tmp + 1, *tmp)))
 			if ((*tmp == '\'' || *(tmp - 1) != '\\') && ++tmp)
-				return(coteacote(tmp));
+				return (coteacote(tmp));
 	}
 	else
-		return(0);
-	return(1);
+		return (0);
+	return (1);
 }
 
 void	sheel(char **av)

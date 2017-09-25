@@ -6,12 +6,11 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:59:36 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/20 20:42:24 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/25 19:57:37 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <termios.h>
-//#include <term.h>
 
 int		pass_canonique(void)
 {

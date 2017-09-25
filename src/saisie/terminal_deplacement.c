@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 22:20:38 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/21 06:37:56 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/25 20:21:45 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 void			yolo(int dir, int y)
 {
-	char	depl[3];
+	char			depl[3];
 
 	*(depl) = 27;
 	*(depl + 1) = 91;
@@ -29,22 +29,20 @@ void			yolo(int dir, int y)
 
 static int		depl_y(int pos, t_data *blk)
 {
-	int		ret;
+	int				ret;
 	struct winsize	w;
 	char			*verrif[2];
 
 	ioctl(0, TIOCGWINSZ, &w);
 	ret = ft_strcpt(blk->str, '\n') - ft_strcpt(blk->str + pos, '\n');
 	*(verrif) = blk->str;
-	while((*(verrif + 1) = ft_strchr(*verrif, '\n')))
+	while ((*(verrif + 1) = ft_strchr(*verrif, '\n')))
 	{
 		if (*(verrif + 1) - blk->str >= pos)
-			break;
-		if (*verrif == blk->str && (*(verrif + 1) - *verrif - 1) / (w.ws_col - blk->pos_start))
-		{
-			++ret;
+			break ;
+		if (*verrif == blk->str && (*(verrif + 1) - *verrif - 1) /
+				(w.ws_col - blk->pos_start) && ++ret)
 			*verrif += (w.ws_col - blk->pos_start);
-		}
 		ret += (*(verrif + 1) - *verrif) / (w.ws_col);
 		*(verrif) = *(verrif + 1) + 1;
 	}
@@ -59,25 +57,20 @@ static int		depl_y(int pos, t_data *blk)
 
 static void		start_lec(int pos, t_data *blk)
 {
-	//sleep(1);
 	write(1, "\r", 1);
 	yolo(67, blk->pos_start);
 	yolo(65, depl_y(pos, blk));
-	//sleep(1);
 }
 
 void			point(t_data *blk, int fg)
 {
-	int depl_;
+	int				depl_;
 	struct winsize	w;
 
 	ioctl(0, TIOCGWINSZ, &w);
 	depl_ = depl_y(blk->pointeur, blk);
-	//ft_putnbr(ft_strcpt(blk->str, '\n') - ft_strcpt(blk->str + blk->len, '\n'));
 	if (fg)
 		start_lec(blk->len, blk);
-//	sleep(1);
-	//	ft_putnbr(depl_);
 	if (recule(blk))
 	{
 		yolo(66, depl_);
@@ -87,8 +80,6 @@ void			point(t_data *blk, int fg)
 	else
 	{
 		yolo(66, depl_);
-//	if (depl_)
-//		ft_putnbr(depl_);
 		if (depl_)
 		{
 			write(1, "\r", 1);
@@ -108,7 +99,7 @@ void			set_t_data_pointeur(t_data *blk, int inc)
 
 void			clean(t_data *blk)
 {
-	int		i;
+	int				i;
 
 	i = -1;
 	start_lec(blk->pointeur, blk);
