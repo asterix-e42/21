@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/25 20:16:55 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/26 20:54:40 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char				*lecture(t_data *my_block, int contrd)
 		else if (*(returnlign) == 13)
 			return (my_block->str);
 		else if ((*returnlign == 4 && contrd))
-			return ("exit");
+			return ((*my_block->str) ? my_block->str : ft_strdup("exit"));
 		if (31 < *returnlign || *returnlign == '\n')
 		{
 			if ((tmp = ft_strchr(returnlign, 13)))

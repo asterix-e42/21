@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/25 19:53:28 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/26 20:39:12 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,17 @@ int		open_file(t_list *redir_start, void *flag_av)
 			}
 			else
 			{
-				redi->out = redi->in;
+				if (!flag_av)
+					redi->out = redi->in;
 				if ((redi->fd = open(redi->file, O_RDONLY | O_NOCTTY)) < 0)
 				{
-					erreur(SHELL, "open", "can't open");
+					erreur(SHELL, "no such file or directory", redi->file);
 					return (1);
 				}
-				redi->in = redi->fd;
+				if (flag_av)
+					redi->out = redi->fd;
+				else
+					redi->in = redi->fd;
 			}
 		}
 		else if (*redi->tok->start == '>')
@@ -297,33 +301,6 @@ void	return_back_fd(char *test)
 	tmp = ft_atoi(test);
 	dup(tmp);
 	close(tmp);
-}
-
-void	return_back(void)
-{
-	char	*test;
-
-	test = VAR->chop("hidden", "stdin");
-	if (ft_strcmp(test, "0"))
-	{
-		close(0);
-		return_back_fd(test);
-		VAR->add_bout("hidden", "stdin", "0");
-	}
-	test = VAR->chop("hidden", "stdout");
-	if (ft_strcmp(test, "1"))
-	{
-		close(1);
-		return_back_fd(test);
-		VAR->add_bout("hidden", "stdin", "1");
-	}
-	test = VAR->chop("hidden", "stderr");
-	if (ft_strcmp(test, "2"))
-	{
-		close(2);
-		return_back_fd(test);
-		VAR->add_bout("hidden", "stdin", "2");
-	}
 }
 
 int		execution(t_leaf *branche, int *redir_process, int pipe_g)

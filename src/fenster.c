@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/25 19:41:02 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/26 20:54:38 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,17 @@ void	execmain(char *string)
 
 	tex = lexer_init(string);
 	lexer(tex);
-	start = ast(*tex);
-	if (!VAR->chop("hidden", "parse"))
-		execution(start, NULL, 0);
-	else
+	if ((start = ast(*tex)))
+	{
+		if (!VAR->chop("hidden", "parse"))
+			execution(start, NULL, 0);
+		ft_treedel(&start, del_t_ast);
+		free(start);
+		free(tex->input);
+		ft_lstdel(&(tex->token), del_t_token);
+	}
+	if (VAR->chop("hidden", "parse"))
 		VAR->unset("hidden", "parse");
-	ft_treedel(&start, del_t_ast);
-	free(start);
-	free(tex->input);
-	ft_lstdel(&(tex->token), del_t_token);
 	free(tex);
 	free(string);
 }
@@ -88,23 +90,31 @@ void	sig_fpe(int sig)
 int		coteacote(char *string)
 {
 	char *tmp;
+	char *tmp2;
 
-	if ((tmp = ft_strchr(string, '\''))
-	|| (tmp = ft_strchr(string, '\"')))
+	(tmp = ft_strchr(string, '\"'));
+	(tmp2 = ft_strchr(string, '\''));
+	if (tmp && tmp2)
+		tmp = (tmp < tmp2) ? tmp : tmp2;
+	else if (!tmp)
+		tmp = tmp2;
+	if (tmp)
 	{
+		tmp2 = tmp;
 		while ((tmp = ft_strchr(tmp + 1, *tmp)))
 			if ((*tmp == '\'' || *(tmp - 1) != '\\') && ++tmp)
 				return (coteacote(tmp));
 	}
 	else
 		return (0);
-	return (1);
+	return (*tmp2);
 }
 
 void	sheel(char **av)
 {
 	char		*string;
 	char		*tmp;
+	char		sdf;
 
 	whereareyou("PWD");
 	VAR->add_bout("env", "_", *av);
@@ -115,10 +125,10 @@ void	sheel(char **av)
 	{
 		while (!(string = saisie("🦄 ", 1)))
 			set_hist(string);
-		while (coteacote(string))
+		while ((sdf = coteacote(string)))
 		{
 			ft_stralloc(&string, "\n");
-			if (!(tmp = saisie("quote", 0)))
+			if (!(tmp = saisie((sdf == '\'') ? "squote" : "dquote", 0)))
 				*string = '\0';
 			else
 				ft_stralloc(&string, tmp);

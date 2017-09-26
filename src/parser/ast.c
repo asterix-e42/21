@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:09:23 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/25 19:57:04 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/26 20:48:06 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ t_leaf		*new_ast(t_lexer *lex, char flag)
 			leaf = ft_treenew(&ret, sizeof(t_ast));
 			leaf->droite = new_secleaf(lex->token->content);
 			((t_ast *)(leaf)->content)->flag = 5;
-			write(1, "q", 4);
 		}
 	}
 	else
@@ -138,10 +137,7 @@ t_leaf		*new_secleaf(t_token *tok)
 	char		*tmp;
 
 	if (tok->len <= 2)
-	{
-		write(1, "vide\n", 5);
 		return (NULL);
-	}
 	tmp = ft_strsub(tok->start, 1, tok->len - 2);
 	sec_lex = lexer_init(tmp);
 	free(tmp);
@@ -233,7 +229,7 @@ void		set_ast_args(t_token *elem, t_ast *ast)
 		free(ast->argv);
 		free(tmp2);
 		ast->argv = tmp;
-		++ast->argc;
+		ast->argc = str_strlen((void **)ast->argv);
 	}
 	free(str);
 }
