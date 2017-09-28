@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2017/09/21 02:39:13 by tdumouli         ###   ########.fr        #
+#    Updated: 2017/09/28 03:41:37 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,16 @@ INCDIR = -I./include -I./libft/include
 
 
 
-MINI =	enviede.o is_dir.o utilitaire.o	change.o fenster.o grsa.o redir.o
+MINI =	enviede.o is_dir.o utilitaire.o	change.o fenster.o redir.o del.o
+
+EXEC = grsa.o built.o file.o process.o redirec.o
 
 BUILD =	echo.o cd.o exit.o setenv.o
 
 VAR  =	ajout.o detroy.o get.o print.o variable.o
 
-LAXT = lexer/lexer.o lexer/reserv.o parser/ast.o
+LAXT = lexer/lexer.o lexer/reserv.o lexer/get_1.o lexer/get_2.o lexer/get_all.o\
+parser/ast.o parser/ft_klein.o parser/new.o parser/set.o
 
 SAISIE = canonique.o move.o saisie.o t_data_init.o terminal_deplacement.o \
 		 utils.o hist.o replace.o
@@ -36,10 +39,11 @@ LIB = libft/libft.a
 OBJ =	$(addprefix $(OBJDIR)/, $(MINI)) \
 		$(addprefix $(OBJDIR)/built/, $(BUILD)) \
 		$(addprefix $(OBJDIR)/variable/, $(VAR)) \
+		$(addprefix $(OBJDIR)/exec/, $(EXEC)) \
 		$(addprefix $(OBJDIR)/, $(LAXT)) \
 		$(addprefix $(OBJDIR)/saisie/, $(SAISIE))
 
-LSTDIRI = built variable lexer parser saisie
+LSTDIRI = built variable lexer parser saisie exec
 debugg = 
 
 ############################## normaly no change ###############################

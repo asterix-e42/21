@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 22:20:38 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/25 20:21:45 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 01:45:20 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int		depl_y(int pos, t_data *blk)
 	return (ret);
 }
 
-static void		start_lec(int pos, t_data *blk)
+void			start_lec(int pos, t_data *blk)
 {
 	write(1, "\r", 1);
 	yolo(67, blk->pos_start);
@@ -88,13 +88,6 @@ void			point(t_data *blk, int fg)
 		else
 			yolo(67, blk->pointeur);
 	}
-}
-
-void			set_t_data_pointeur(t_data *blk, int inc)
-{
-	start_lec(blk->pointeur, blk);
-	blk->pointeur += inc;
-	point(blk, 0);
 }
 
 void			clean(t_data *blk)

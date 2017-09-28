@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 17:31:39 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 18:56:14 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 03:44:56 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ typedef struct	s_redir
 typedef struct	s_ast
 {
 	char				**assign;
-	t_token				*tok;
 	char				**argv;
 	int					argc;
 	t_list				*redir;
 	int					flag;
+	t_token				*tok;
 }				t_ast;
 
 void			set_token_len(t_list *tok, t_res_name re);
@@ -100,5 +100,19 @@ void			change(char **s, int flagcote, char **sdg);
 
 t_list			*get_resv(void);
 void			erreur(char *a, char *s, char *d);
+
+t_list			*new_redir(t_lexer *lex);
+t_leaf			*new_ast(t_lexer *lx, char fg);
+t_leaf			*new_secleaf(t_token *tok);
+
+void			set_ast_assignement(t_token *elem, t_ast *ast);
+void			set_ast_args(t_token *elem, t_ast *ast);
+
+char			**str_str_ralloc(int diff, char **str);
+int				str_strlen(void **s);
+char			**str_strdup(char *str);
+void			*parse_error(t_token *tok);
+
+int				verrif_all(char *str, t_res_name *parc);
 
 #endif

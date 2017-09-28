@@ -6,11 +6,12 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 06:18:13 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 16:18:39 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 00:46:54 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
+#include <stdlib.h>
 
 char	*get_hist(int up)
 {

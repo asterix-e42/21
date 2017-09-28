@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/26 20:54:40 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 01:19:13 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,17 @@ void				ft_write(int fd, t_data *blk)
 
 static void			lecture_autre(int lec, char *c, t_data *my_block)
 {
-	if (lec == 3 && *c == 27)
+	char	*tmp;
+
+	if (31 < *c || *c == '\n')
+	{
+		if ((tmp = ft_strchr(c, 13)))
+			*(tmp) = '\0';
+		ajout_str(c, my_block);
+		if (tmp)
+			*tmp = 13;
+	}
+	else if (lec == 3 && *c == 27)
 		move_simple(c, my_block);
 	else if (lec == 4 && *c == 27)
 		move_simple_depl(c, my_block);
@@ -65,26 +75,14 @@ char				*lecture(t_data *my_block, int contrd)
 			returnlign = tmp;
 		*(c + lec) = 0;
 		if (*(returnlign) == 3)
-		{
-			free(my_block->str);
-			return (NULL);
-		}
+			return (ft_strdel(&my_block->str));
 		if (*(returnlign) == 13 && *(my_block->str + my_block->len - 1) == '\\')
 			*returnlign = '\n';
 		else if (*(returnlign) == 13)
 			return (my_block->str);
 		else if ((*returnlign == 4 && contrd))
 			return ((*my_block->str) ? my_block->str : ft_strdup("exit"));
-		if (31 < *returnlign || *returnlign == '\n')
-		{
-			if ((tmp = ft_strchr(returnlign, 13)))
-				*(tmp) = '\0';
-			ajout_str(returnlign, my_block);
-			if (tmp)
-				*tmp = 13;
-		}
-		else
-			lecture_autre(lec, returnlign, my_block);
+		lecture_autre(lec, returnlign, my_block);
 	}
 	return (my_block->str);
 }

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/26 20:54:38 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 00:39:18 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ int		main(int ac, char **av, char **ae)
 	(void)ac;
 	sheel(av);
 	ft_mini_exit((void *)0);
-}
-
-void	del_t_token(void *tok, size_t tamere)
-{
-	(void)tamere;
-	free(tok);
-}
-
-void	del_t_redir(void *redir, size_t tamere)
-{
-	(void)tamere;
-	freeteuse((void **)((t_redir *)redir)->file, 0);
-	free(redir);
-}
-
-void	del_t_ast(void *ast, size_t tamere)
-{
-	(void)tamere;
-	freeteuse((void **)((t_ast *)ast)->assign, 1);
-	freeteuse((void **)((t_ast *)ast)->argv, 1);
-	ft_lstdel(&(((t_ast *)ast)->redir), del_t_redir);
-	free(ast);
 }
 
 void	execmain(char *string)

@@ -6,13 +6,14 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 17:47:09 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/19 21:07:28 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 00:44:56 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include "libft.h"
 #include "mini.h"
+#include <stdlib.h>
 
 void	pwd_short(char **pwd)
 {

@@ -6,13 +6,35 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 16:19:35 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/26 18:09:43 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 03:31:07 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "mini.h"
 #include <stdlib.h>
+
+void	change(char **s, int flagcote, char **test)
+{
+	int		i;
+	char	*vr;
+
+	i = 0;
+	while (*(*s + i))
+	{
+		if (*(*s + i) == '$' && *(*s + i + 1))
+			i += variable(s, i) - 1;
+		else if (!flagcote && i == 0 && (vr = VAR->chop("alias", *s)) && !test)
+		{
+			i = copy(s, 0, vr, ft_strlen(*s)) - 1;
+		}
+		else if (*(*s + i) == '\\')
+			i += echapement(s, i);
+		else if (*(*s + i) == '*')
+			i += 0;
+		++i;
+	}
+}
 
 int		copy(char **s, int symb, char *insert, int save_p)
 {

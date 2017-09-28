@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:42:34 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 02:36:50 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 01:35:14 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char			*get_hist(int up);
 char			*fleme(void);
 char			*set_hist(char *stri, char c);
 void			cutinhist(char *pas, char *nam);
+void			start_lec(int pos, t_data *blk);
 
 void			replace(t_data *blk, char *n);
 void			ft_write(int fd, t_data *b);

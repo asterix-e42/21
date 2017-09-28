@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/24 18:56:06 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 03:54:05 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINI_H
 
 # include <fcntl.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include "tent.h"
 # include "lexer.h"
 
@@ -27,6 +25,12 @@ typedef struct	s_data {
 	int			len;
 	int			pointeur;
 }				t_data;
+/*
+** del
+*/
+void			del_t_redir(void *redir, size_t tamere);
+void			del_t_ast(void *ast, size_t tamere);
+void			del_t_token(void *tok, size_t tamere);
 /*
 ** termcaps
 */
@@ -40,6 +44,8 @@ t_data			*t_dat_init(void);
 void			sheel(char **av);
 int				exe(char *av);
 int				execution(t_leaf *branche, int *redir, int pipe);
+int				new_process(t_ast *ast, char *error, int *flag);
+int				exe_path(char **av, t_ast *ast, int *flag);
 /*
 ** environement
 */
@@ -51,6 +57,15 @@ void			pass(int fd_read, int fd_write);
 void			redirpass(t_list *elem);
 void			d_redir_g(t_redir *redir, char *av);
 int				*fume_pipe(void);
+int				redi_gauche(t_redir *redi, void *flag_av);
+int				redi_droite(t_redir *redi);
+/*
+** file
+*/
+void			close_file(t_list *redir_start);
+void			close_free(int **fd);
+int				open_file(t_list *redir_start, void *flag_av);
+void			create_file(t_list *redir_start);
 /*
 ** utils
 */
@@ -70,6 +85,9 @@ void			erreur(char *a, char *s, char *d);
 /*
 ** built in
 */
+
+int				built_in_before_fork(t_ast *ast);
+int				built_in(t_ast *ast);
 
 /*
 ** cd.h
