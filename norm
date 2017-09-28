@@ -2,27 +2,4 @@ saisie	multiligne :  mouai bof
 copier coller  \n		presque mais sa passe a peu pres
 lexer	{ -> (
 {}					: ignorer
-coteacote
-
-
-NORME x(
-
-Norme: ./src/fenster.c
-Error: 8 functions in the file
-Norme: ./src/lexer/lexer.c
-Error: 16 functions in the file
-Norme: ./src/saisie/saisie.c
-Error (line 52): function lecture has 36 lines
-Norme: ./src/saisie/terminal_deplacement.c
-Error: 6 functions in the file
-Norme: ./src/parser/ast.c
-Error: 10 functions in the file
-Error (line 54): function new_ast has 36 lines
-Error (line 94): function add_control has 37 lines
-Error (line 208): function set_ast_args has 29 lines
-Error (line 241): function ast has 36 lines
-Norme: ./src/grsa.c
-Error: 15 functions in the file
-Error (line 88): function open_file has 46 lines
-Error (line 260): function exec_sparator has 29 lines
-Error (line 329): function execution has 55 lines
+coteacote			: sa passe a peu pres
