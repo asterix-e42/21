@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 03:31:16 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 03:49:14 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 19:53:27 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		new_process(t_ast *ast, char *error, int *flag)
 		}
 		if (pid == 0)
 			execve(*(ast->argv), ast->argv, VAR->chop_all("env"));
-		waitpid(-1, &count, 0);
+		waitpid(-1, &count, WUNTRACED);
 		return (WEXITSTATUS(count));
 	}
 	erreur(SHELL, error, *(ast->argv));

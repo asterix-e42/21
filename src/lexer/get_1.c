@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 02:37:44 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 02:57:12 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 17:09:21 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,21 @@ t_res_name	lexer_get_separator(char *str)
 	return (ret);
 }
 
-t_res_name	lexer_get_control(char *str)
+t_res_name	lexer_get_cote(char *str)
 {
 	t_res_name	ret;
 
 	ret.text = str;
-	ret.type = TK_CONTROL;
-	if ((*str == *(str + 1)) && (*str == '&' || *str == ';' || *str == '|'))
-		ret.text += 2;
-	else if (*str == '&' || *str == ';' || *str == '|')
-		++ret.text;
+	if (*ret.text == '\'' || *ret.text == '"')
+	{
+		if (*ret.text == '\'')
+			ret.type = TK_SCOTE;
+		else
+			ret.type = TK_DCOTE;
+		while ((ret.text = ft_strchr(ret.text + 1, *ret.text)))
+			if ((ret.type == TK_SCOTE || *(ret.text - 1) != '\\') && ++ret.text)
+				break ;
+	}
 	return (ret);
 }
 
@@ -53,7 +58,11 @@ t_res_name	lexer_get_cmd(char *str)
 	{
 		++(ret.text);
 		if (*ret.text == '=')
+		{
+			if (*(ret.text + 1) == '"' || *(ret.text + 1) == '\'')
+				ret = lexer_get_cote(ret.text + 1);
 			ret.type = TK_ASSEGMT;
+		}
 	}
 	return (ret);
 }

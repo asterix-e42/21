@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 14:26:24 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/01 13:40:55 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 17:30:37 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void			add(char *nam, char **ajout, unsigned int nb)
 {
 	char		*value;
 	char		*tmp;
+	char		*zkjdhfb;
 
 	while (nb-- && *ajout)
 	{
@@ -57,7 +58,13 @@ void			add(char *nam, char **ajout, unsigned int nb)
 		if (value)
 		{
 			*value = '\0';
-			add_bout(nam, tmp, value + 1);
+			++value;
+			if ((*value == '"' || *value == '\'') && ++value)
+			{
+				zkjdhfb = ft_strchr(value, (*(value - 1) == '"') ? '"' : '\'');
+				*zkjdhfb = '\0';
+			}
+			add_bout(nam, tmp, value);
 		}
 		++ajout;
 		free(tmp);

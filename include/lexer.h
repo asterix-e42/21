@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 17:31:39 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 04:13:37 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 18:46:51 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void			set_ast_args(t_token *elem, t_ast *ast);
 char			**str_str_ralloc(int diff, char **str);
 int				str_strlen(void **s);
 char			**str_strdup(char *str);
-void			*parse_error(t_token *tok);
+void			*parse_error(t_token *tok, t_lexer *lx);
 
 int				verrif_all(char *str, t_res_name *parc);
 

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 02:02:14 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 02:20:32 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 19:30:24 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ char		**str_strdup(char *str)
 	return (ret);
 }
 
-void		*parse_error(t_token *tok)
+void		*parse_error(t_token *tok, t_lexer *lx)
 {
+	if (!*lx->input)
+		return (NULL);
 	VAR->add_bout("hidden", "parse", "!");
 	erreur(SHELL, "parse error near `", NULL);
 	write(2, tok->start, tok->len);

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 21:24:32 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 01:19:13 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 19:45:50 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,18 @@ char				*lecture(t_data *my_block, int contrd)
 			*returnlign = '\n';
 		else if (*(returnlign) == 13)
 			return (my_block->str);
-		else if ((*returnlign == 4 && contrd))
-			return ((*my_block->str) ? my_block->str : ft_strdup("exit"));
+		else if ((*returnlign == 4 && contrd && !*my_block->str))
+			return (ft_strdup("exit"));
 		lecture_autre(lec, returnlign, my_block);
 	}
 	return (my_block->str);
 }
+
+/*
+** ^d execute
+**	else if ((*returnlign == 4 && contrd))
+**		return ((*my_block->str) ? my_block->str : ft_strdup("exit"));
+*/
 
 char				*alloc_brute_to_fd(int fd)
 {

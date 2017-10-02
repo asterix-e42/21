@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 02:00:05 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 02:22:27 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 19:27:44 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ t_leaf		*new_ast(t_lexer *lx, char fg)
 	while ((tk = lx->token->content) && fg && (tk->len) && tk->type == TK_BLANK)
 		lx->token = lx->token->next;
 	ret = (t_ast) {NULL, 0, 0, 0, 0, (fg) ? tk : (t_token *)lx};
-	if (fg && tk->type == TK_CONTROL)
-		return (parse_error(tk));
+	if (fg && (tk->type == TK_CONTROL || !tk->len))
+		return (parse_error(tk, lx));
 	else if (fg && tk->type == TK_ACOLAD)
 	{
 		if (!next_type(lx->token, TK_CONTROL))

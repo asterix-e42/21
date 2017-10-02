@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 20:19:34 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 03:47:15 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 16:23:30 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,10 @@ void		d_redir_g(t_redir *redir, char *flag_av)
 
 	fd = fume_pipe();
 	redir->out = redir->in;
-	write(1, "heredoc> ", 9);
 	while (get_next_line(0, &str))
 	{
 		if (!ft_strcmp(str, redir->file))
 			break ;
-		write(1, "heredoc> ", 9);
 		ft_putstr_fd(str, (*(fd + 1)));
 		ft_putchar_fd('\n', (*(fd + 1)));
 	}

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 02:39:06 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 02:57:32 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/02 16:30:20 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,16 @@ t_res_name	lexer_get_newline(char *str)
 	return (ret);
 }
 
-t_res_name	lexer_get_cote(char *str)
+t_res_name	lexer_get_control(char *str)
 {
 	t_res_name	ret;
 
 	ret.text = str;
-	if (*ret.text == '\'' || *ret.text == '"')
-	{
-		if (*ret.text == '\'')
-			ret.type = TK_SCOTE;
-		else
-			ret.type = TK_DCOTE;
-		while ((ret.text = ft_strchr(ret.text + 1, *ret.text)))
-			if ((ret.type == TK_SCOTE || *(ret.text - 1) != '\\') && ++ret.text)
-				break ;
-	}
+	ret.type = TK_CONTROL;
+	if ((*str == *(str + 1)) && (*str == '&' || *str == ';' || *str == '|'))
+		ret.text += 2;
+	else if (*str == '&' || *str == ';' || *str == '|')
+		++ret.text;
 	return (ret);
 }
 
