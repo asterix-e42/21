@@ -6,14 +6,14 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2017/09/28 03:41:37 by tdumouli         ###   ########.fr        #
+#    Updated: 2017/09/28 04:13:56 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 SPEUDO = "tdumouli"
 NAMEI =
-NAME = minishell
+NAME = 21sh
 OBJDIR = ./objet
 SRCDIR = ./src
 INCDIR = -I./include -I./libft/include

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 17:31:39 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 03:44:56 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 04:13:37 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LEXER_H
 
 # include "libft.h"
-# define SHELL "miniii"
+# define SHELL "21sh"
 
 typedef enum	e_token_type
 {

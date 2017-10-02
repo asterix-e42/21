@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 03:54:05 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/09/28 04:13:23 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "tent.h"
 # include "lexer.h"
 
-# define SHELL "miniii"
+# define SHELL "21sh"
 # define VAR all_var(0)
 
 typedef struct	s_data {
