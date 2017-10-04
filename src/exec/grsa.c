@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/02 17:12:03 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/04 22:51:29 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "lexer.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 int		*fume_pipe(void)
 {
@@ -72,7 +73,7 @@ int		exec_process(t_ast *ast, int *redir_process, int pipe_g)
 	if (redir_process && !pipe_g)
 		dup2(*redir_process, atoi(VAR->chop("hidden", "stdin")));
 	if (open_file(ast->redir, ast->argv))
-		exit(1);
+		return (1);
 	if (ast->argv && built_in(ast))
 		count = 0;
 	else if (ast->argv || (count = 0))
@@ -104,13 +105,17 @@ int		exec_fourchette(t_ast *ast, int *redir_process, int pipe_g)
 		return (1);
 	}
 	if (pid == 0)
-		exit(exec_process(ast, redir_process, pipe_g));
+	{
+		count = exec_process(ast, redir_process, pipe_g);
+		exit(count);
+	}
 	if (pid && !(redir_process && *(redir_process + 2)))
 	{
-		if (redir_process)
-			while ((--*(redir_process + 3)) != -1)
-				waitpid(-1, &count, 0);
 		waitpid(pid, &count, 0);
+		kill(0, SIGINT);
+		if (redir_process)
+			while ((--*(redir_process + 3)))
+				waitpid(-1, &count, 0);
 	}
 	return (WEXITSTATUS(count));
 }

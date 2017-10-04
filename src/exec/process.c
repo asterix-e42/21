@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 03:31:16 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/02 19:53:27 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/04 22:59:05 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,10 @@
 
 int		new_process(t_ast *ast, char *error, int *flag)
 {
-	pid_t	pid;
-	int		count;
-
 	(void)ast;
 	(void)flag;
 	if (!access(*(ast->argv), X_OK))
-	{
-		pid = fork();
-		if (pid == -1)
-		{
-			erreur(SHELL, "fork", "echec du process");
-			return (1);
-		}
-		if (pid == 0)
-			execve(*(ast->argv), ast->argv, VAR->chop_all("env"));
-		waitpid(-1, &count, WUNTRACED);
-		return (WEXITSTATUS(count));
-	}
+		execve(*(ast->argv), ast->argv, VAR->chop_all("env"));
 	erreur(SHELL, error, *(ast->argv));
 	return (1);
 }

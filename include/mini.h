@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:31:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 04:13:23 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/04 22:27:27 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int				exe(char *av);
 int				execution(t_leaf *branche, int *redir, int pipe);
 int				new_process(t_ast *ast, char *error, int *flag);
 int				exe_path(char **av, t_ast *ast, int *flag);
+void			execmain(char *string);
 /*
 ** environement
 */
@@ -76,6 +77,7 @@ int				variable(char **s, int symb);
 int				echapement(char **s, int symb);
 int				is_dir(char *s);
 int				new_process(t_ast *ast, char *error, int *flag);
+char			**str_str_ralloc(int diff, char **str);
 
 char			*ft_strjoini(char const *s1, char const *s2, char c);
 void			freeteuse(void **s, int niveau);

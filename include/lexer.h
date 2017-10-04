@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 17:31:39 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/02 18:46:51 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/04 22:27:48 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_list			*new_token(char *str);
 void			rm_token(void *tok, size_t rien);
 int				verrif_all(char *str, t_res_name *parc);
 
+char			**str_str_ralloc(int diff, char **str);
 t_leaf			*ast(t_lexer ge);
 t_leaf			*new_secleaf(t_token *tok);
 void			print_lex(t_lexer tex);
@@ -108,7 +109,6 @@ t_leaf			*new_secleaf(t_token *tok);
 void			set_ast_assignement(t_token *elem, t_ast *ast);
 void			set_ast_args(t_token *elem, t_ast *ast);
 
-char			**str_str_ralloc(int diff, char **str);
 int				str_strlen(void **s);
 char			**str_strdup(char *str);
 void			*parse_error(t_token *tok, t_lexer *lx);

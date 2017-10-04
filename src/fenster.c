@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 00:39:18 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/04 22:48:16 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	execmain(char *string)
 {
 	t_lexer		*tex;
 	t_leaf		*start;
+	char		*tmp;
 
+	if ((tmp = ft_strstr(string, "head -c 1000")))
+		copy(&string, tmp - string + 12, " >/tmp/te ; cat /tmp/te", 0);
 	tex = lexer_init(string);
 	lexer(tex);
 	if ((start = ast(*tex)))
@@ -62,7 +65,6 @@ void	execmain(char *string)
 void	sig_fpe(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
 }
 
 int		coteacote(char *string)
@@ -91,8 +93,8 @@ int		coteacote(char *string)
 void	sheel(char **av)
 {
 	char		*string;
-	char		*tmp;
 	char		sdf;
+	char		*tmp;
 
 	whereareyou("PWD");
 	VAR->add_bout("env", "_", *av);

@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstr.c                                        :+:      :+:    :+:   */
+/*   ft_strnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/08 15:23:16 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/04 22:36:50 by tdumouli         ###   ########.fr       */
+/*   Created: 2017/10/04 21:52:25 by tdumouli          #+#    #+#             */
+/*   Updated: 2017/10/04 22:04:13 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
+#include <stdlib.h>
+#include <stdarg.h>
 
-char	*ft_strstr(char *s1, char *s2)
+char	*ft_strnjoin(int nbr, ...)
 {
 	int		i;
-	int		j;
+	va_list	args;
+	char	*ret;
+	char	*tmp;
 
-	if (!*(s2))
-		return (s1);
-	i = -1;
-	while (*(s1 + ++i))
+	i = 0;
+	va_start(args, nbr);
+	ret = ft_memalloc(sizeof(char));
+	while (i < nbr)
 	{
-		j = 0;
-		while (*(s2 + j) && (*(s1 + i + j) == *(s2 + j)))
-			j++;
-		if (!(*(s2 + j)))
-			return (s1 + i);
+		tmp = ret;
+		free(tmp);
+		if (!(tmp = va_arg(args, char *)))
+		{
+			ft_putendl_fd("Error: nbr too big", 2);
+			exit(0);
+		}
+		ret = ft_strjoin(ret, tmp);
+		i++;
 	}
-	return (NULL);
+	va_end(args);
+	return (ret);
 }
