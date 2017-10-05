@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 03:34:11 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/04 18:05:48 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/05 17:04:49 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	create_file(t_list *redir_start)
 	while (redir_start && (redir = ((t_redir *)redir_start->content)))
 	{
 		if (redir->out <= -1 && *redir->tok->start == '>')
-			creat(redir->file,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			open(redir->file, O_CREAT | O_TRUNC | O_WRONLY,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		redir_start = redir_start->next;
 	}
 }

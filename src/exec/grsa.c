@@ -6,12 +6,11 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:30:08 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/05 13:16:24 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/05 17:02:50 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "libft.h"
 #include "mini.h"
@@ -69,9 +68,9 @@ int		exec_process(t_ast *ast, int *redir_process, int pipe_g)
 	int		count;
 
 	if (redir_process && *(redir_process + 2))
-		dup2(*(redir_process + 1), atoi(VAR->chop("hidden", "stdout")));
+		dup2(*(redir_process + 1), ft_atoi(VAR->chop("hidden", "stdout")));
 	if (redir_process && !pipe_g)
-		dup2(*redir_process, atoi(VAR->chop("hidden", "stdin")));
+		dup2(*redir_process, ft_atoi(VAR->chop("hidden", "stdin")));
 	if (open_file(ast->redir, ast->argv))
 		return (1);
 	if (ast->argv && built_in(ast))

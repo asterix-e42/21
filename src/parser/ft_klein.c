@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 02:02:14 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/04 22:29:43 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/05 17:34:25 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,12 @@ char		**str_strdup(char *str)
 
 void		*parse_error(t_token *tok, t_lexer *lx)
 {
-	if (!*lx->input)
+	char		*tmp;
+
+	tmp = lx->input;
+	while (ft_isspace(*tmp))
+		++tmp;
+	if (!*tmp)
 		return (NULL);
 	VAR->add_bout("hidden", "parse", "!");
 	erreur(SHELL, "parse error near `", NULL);
