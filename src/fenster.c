@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 00:09:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/04 22:48:16 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/05 13:22:07 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	execmain(char *string)
 			execution(start, NULL, 0);
 		ft_treedel(&start, del_t_ast);
 		free(start);
-		free(tex->input);
-		ft_lstdel(&(tex->token), del_t_token);
 	}
 	if (VAR->chop("hidden", "parse"))
 		VAR->unset("hidden", "parse");
+	free(tex->input);
+	ft_lstdel(&(tex->token), del_t_token);
 	free(tex);
 	free(string);
 }

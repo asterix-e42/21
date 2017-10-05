@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2017/10/02 19:40:24 by tdumouli         ###   ########.fr        #
+#    Updated: 2017/10/05 13:41:19 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ GREEN="\x1b[32m"
 YELLOW="\x1b[33m"
 CC = gcc
 CFLAGS = $(INCDIR) -Wall -Wextra -Werror
-DEBU = -fsanitize=address -g3
+DEBUG = -fsanitize=address -g3
 MAKE = /usr/bin/make
 
 LSTDIR=	$(addprefix $(OBJDIR)/, $(LSTDIRI)) \

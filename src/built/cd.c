@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 17:47:09 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/09/28 00:44:56 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/05 13:37:05 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	built_cd(char **av)
 	char	*tmp;
 
 	if (!*(av + 1))
-		;
+		cd(VAR->chop("env", "HOME"));
 	else if (!ft_strcmp(*(av + 1), "-"))
 	{
 		if (!(tmp = VAR->chop("env", "OLDPWD")))
