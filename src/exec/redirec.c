@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 03:18:06 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/02 16:23:12 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/06 14:25:42 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,4 @@ int		redi_droite(t_redir *redi)
 		redi->out = redi->fd;
 	}
 	return (0);
-}
-
-int		fd_is_valid(int fd, int has_mode)
-{
-	int		fd_flags;
-	int		fd_modes;
-
-	fd_modes = fcntl(fd, F_GETFL);
-	fd_flags = fcntl(fd, F_GETFD);
-	return (fd_flags != -1 && (has_mode == -1 || fd_modes & has_mode));
 }

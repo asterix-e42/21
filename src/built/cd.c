@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 17:47:09 by tdumouli          #+#    #+#             */
-/*   Updated: 2017/10/05 13:52:15 by tdumouli         ###   ########.fr       */
+/*   Updated: 2017/10/06 14:34:21 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,10 @@ void	built_cd(char **av)
 		if (!(tmp = VAR->chop("env", "OLDPWD")))
 			erreur(SHELL, "cd:", "OLDPWD not set");
 		else
+		{
+			ft_putendl(tmp);
 			cd(tmp);
-		ft_putendl(tmp);
+		}
 	}
 	else
 		cd((*(av + 1)));
