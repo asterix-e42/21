@@ -59,7 +59,7 @@ t_res_name	lexer_get_comment(char *str)
 	if (!((*str == '#' && 1) || (*str == '\n' && *(str + 1) == '#')))
 		return (ret);
 	ret.type = TK_COMMENT;
-	if ((int)(ret.text = ft_strchr(str + 1, '\n') + 1) == 1)
+	if (!(ret.text = ft_strchr(str + 1, '\n')))
 		ret.text = ft_strchr(str + 1, '\0');
 	return (ret);
 }
